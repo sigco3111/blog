@@ -2,7 +2,7 @@
 layout: post
 title:  "바이브 코딩을 위한 실용적인 컨텍스트 엔지니어링"
 date:   2025-07-24 08:00:00 +0900
-categories: 읽어볼 만한 글
+categories: 도서관
 ---
 
 ## Generative AI Series 제너레이티브 AI 시리즈

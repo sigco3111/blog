@@ -17,17 +17,25 @@
         </label>
 
         <div class="trigger">
+          <!-- 메뉴 순서: 카테고리, 대시보드, About -->
+          <!-- 카테고리 링크 -->
+          <a class="page-link" href="{{ '/categories/' | relative_url }}">카테고리</a>
+          
+          <!-- 대시보드 링크 -->
+          <a class="page-link" href="{{ '/dashboard/' | relative_url }}">대시보드</a>
+          
+          <!-- About 링크 -->
+          <a class="page-link" href="{{ '/about/' | relative_url }}">About</a>
+          
+          <!-- 기타 페이지 링크 (카테고리, 대시보드, About 제외) -->
           {%- for path in page_paths -%}
             {%- assign my_page = site.pages | where: "path", path | first -%}
-            {%- unless my_page.url contains '/category/' -%}
-              {%- if my_page.title and my_page.url != '/categories/' -%}
+            {%- unless my_page.url contains '/category/' or my_page.url == '/categories/' or my_page.url == '/dashboard/' or my_page.url == '/about/' -%}
+              {%- if my_page.title -%}
               <a class="page-link" href="{{ my_page.url | relative_url }}">{{ my_page.title | escape }}</a>
               {%- endif -%}
             {%- endunless -%}
           {%- endfor -%}
-          
-          <!-- 카테고리 링크 추가 -->
-          <a class="page-link" href="{{ '/categories/' | relative_url }}">카테고리</a>
         </div>
       </nav>
     {%- endif -%}
