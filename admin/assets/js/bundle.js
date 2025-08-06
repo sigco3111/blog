@@ -136,7 +136,7 @@ async function loadFallbackAdmin() {
                                                 <div class="form-row">
                                                     <div class="form-group">
                                                         <label for="site-title" class="form-label">사이트 제목 *</label>
-                                                        <input type="text" id="site-title" name="title" class="form-input" value="sigco3111 Blog" required>
+                                                        <input type="text" id="site-title" name="title" class="form-input" value="ICBM Blog" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="site-email" class="form-label">이메일 *</label>
