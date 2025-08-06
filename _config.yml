@@ -32,11 +32,6 @@ theme: minima
 plugins:
   - jekyll-feed
 
-# Jekyll 어드민 사이트 설정
-admin:
-  enabled: true
-  path: "/admin"
-  
 # 성능 최적화
 sass:
   style: compressed
@@ -46,9 +41,6 @@ exclude:
   - .env
   - .env.*
   - node_modules/
-  - admin/build/
-  - admin/tests/
-  - admin/docs/
   - "*.log"
   - Gemfile
   - Gemfile.lock
@@ -67,10 +59,6 @@ profile: false
 # 개발 환경 설정
 livereload: true
 open_url: true
-
-# Include admin directory
-include:
-  - admin
 
 # Exclude from processing.
 # The following items will not be processed, by default.

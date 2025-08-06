@@ -1,0 +1,14 @@
+---
+layout: post
+title:  "게임 훈수두는 AI 버튜버 미소녀 만드는 법"
+date:   2025-07-28 08:00:00 +0900
+categories: Tip
+---
+
+# 시로 AI
+
+출처 : https://www.youtube.com/watch?v=Te1vRE6QY0w&list=PLoSIoPWNjwhLctI2K8DcKKxHQwUaEWfBi&index=3&ab_channel=%EC%A0%80%EC%84%B8%EC%83%81%EA%B0%9C%EB%B0%9C%EC%9E%90
+
+시로 AI 설치 가이드 : https://docs.google.com/document/d/1ma3fD4krbq-4Vwzx6eA4rln3Jlxq0MYy5EaeEEGZDzs/edit?tab=t.oxkrt9psuhrx#heading=h.v90wafxjzo4f
+
+시로 AI 다운로드 : https://drive.google.com/file/d/1DUbcs74Q7Zjf2qIRNQbpiQWgJMDLrb8Z/view?pli=1

@@ -1,0 +1,87 @@
+---
+layout: post
+title:  "GLM-4.5"
+date:   2025-07-31 08:00:00 +0900
+categories: 오픈소스
+---
+
+# GLM-4.5: 지능형 에이전트를 위한 오픈소스 대형 언어 모델
+
+## 개요
+GLM-4.5는 Z.ai(구 Zhipu AI)에서 개발한 최신 오픈소스 대형 언어 모델(LLM) 시리즈로, 지능형 에이전트 애플리케이션을 위해 설계되었습니다. 이 모델은 추론, 코딩, 에이전트 기능을 단일 모델에 통합하여 복잡한 작업을 처리할 수 있도록 최적화되었습니다. GLM-4.5와 경량화된 GLM-4.5-Air 두 가지 버전이 제공됩니다.
+
+- **출시일**: 2025년 7월 28일  
+- **라이선스**: MIT (오픈소스로 상업적 사용 및 2차 개발 가능)  
+- **접근성**: Z.ai 플랫폼, Z.ai API, HuggingFace, ModelScope에서 사용 가능  
+- **커뮤니티**: WeChat 및 Discord 커뮤니티 참여 가능  
+
+## 모델 구성
+GLM-4.5 시리즈는 Mixture-of-Experts (MoE) 아키텍처를 기반으로 하며, 두 가지 모델로 구성됩니다:
+- **GLM-4.5**: 총 3550억 파라미터, 활성 파라미터 320억  
+- **GLM-4.5-Air**: 총 1060억 파라미터, 활성 파라미터 120억 (경량화로 소비자 GPU에서도 실행 가능, 32~64GB VRAM 지원)
+
+### 주요 특징
+- **하이브리드 추론 모드**:  
+  - **Thinking Mode**: 복잡한 추론 및 도구 사용에 최적화.  
+  - **Non-Thinking Mode**: 즉각적인 응답에 적합.  
+  - 사용자는 `reasoning enabled` 불리언으로 모드 제어 가능  
+- **컨텍스트 길이**: 최대 128,000 토큰 지원  
+- **도구 호출**: 웹 브라우징, 소프트웨어 개발, 프론트엔드 개발 등에 최적화된 도구 호출 기능  
+- **성능**: 12개 벤치마크(MMLU Pro, GSM8K, HumanEval 등)에서 평균 점수 63.2로 글로벌 3위, 오픈소스 모델 중 1위. GLM-4.5-Air는 1000억 파라미터급 모델 중 선두(평균 점수 59.8)  
+
+## 기술적 세부사항
+### 학습 파이프라인
+- **사전 학습**: 15조 토큰의 일반 도메인 데이터로 학습.  
+- **미세 조정**: 코드, 추론, 에이전트 작업 관련 데이터셋으로 타겟팅된 미세 조정.  
+- **강화 학습(RL)**:  
+  - 단일 단계 RL로 64K 컨텍스트에서 난이도 기반 커리큘럼 적용.  
+  - 동적 샘플링 온도와 적응형 클리핑으로 안정성 확보.  
+  - 에이전트 작업(정보 검색 QA, 소프트웨어 엔지니어링)에 특화된 RL 적용  
+- **전문가 증류**: 추론, 코딩, 에이전트 능력을 통합하여 전반적인 성능 강화  
+
+### 성능 최적화
+- **다중 토큰 예측(MTP)** 및 추측적 디코딩: 최대 8배 빠른 추론 속도(고속 API에서 100~200 토큰/초)  
+- **파라미터 효율성**: GLM-4.5는 DeepSeek-R1(1/2 파라미터) 및 Kimi-K2(1/3 파라미터)보다 높은 성능 달성  
+- **소프트웨어 통합**: vLLM, SGLang, transformers와 통합, FP8 버전 제공  
+
+### 벤치마크 성과
+- **추론**: MMLU Pro(0.835), AIME24, MATH 500 등에서 Claude 3.5 Sonnet 및 Kimi K2와 경쟁  
+- **코딩**: Claude Code를 사용한 52개 코딩 작업(프론트엔드, 도구 개발, 데이터 분석 등)에서 Kimi K2 대비 53.9%, Qwen3-Coder 대비 80.8% 성공률  
+- **에이전트 기능**: 도구 호출 성공률 90.6%, Claude 3.5 Sonnet 및 Kimi K2 상회  
+- **중국어 작업**: 중국어 기반 작업에서 일관된 최상위 성과  
+
+## 활용 사례
+- **풀스택 개발**: 프론트엔드, 백엔드, 데이터베이스 관리, 웹 애플리케이션 생성  
+- **시각 자료 생성**: 슬라이드, 포스터 등 고품질 프레젠테이션 자료 제작  
+- **게임 개발**: Flappy Bird 클론과 같은 플레이 가능한 게임 생성  
+- **웹 스크래핑**: 이미지 및 데이터 검색을 위한 안정적인 에이전트 기능  
+
+## 가격 및 접근성
+- **API 가격**: 입력 토큰 100만 개당 $0.11(약 ¥0.8), 출력 토큰 100만 개당 $0.28(약 ¥2)으로 업계 최저 수준  
+- **무료 사용**: [chat.z.ai](https://chat.z.ai/)에서 계정 없이 무료 체험 가능  
+- **로컬 실행**: GLM-4.5-Air는 48GB RAM(M4 Mac) 또는 32~64GB VRAM GPU에서 실행 가능(3비트/4비트 양자화 지원)  
+
+## 한계
+- 일부 벤치마크(MMLU)에서 Claude 및 GPT-4.1에 비해 약간 뒤짐  
+- 복잡한 장문 작업에서 GPT-4.1의 깊이에 미치지 못할 수 있음  
+- 8x H100 GPU 사용 시 메모리 부족 문제 발생 가능(vLLM에서 `--cpu-offload-gb 16` 설정 필요)  
+
+## 리소스
+- **공식 웹사이트**: [https://www.z.ai/](https://www.z.ai/)  
+- **GitHub 저장소**: [https://github.com/zai-org/GLM-4.5](https://github.com/zai-org/GLM-4.5)  
+- **HuggingFace**: [https://huggingface.co/zai-org/GLM-4.5](https://huggingface.co/zai-org/GLM-4.5)  
+- **기술 블로그**: [https://docs.z.ai/](https://docs.z.ai/)  
+- **API 문서**: [https://www.z.ai/api](https://www.z.ai/api)  
+
+## 인용
+```bibtex
+@misc{glm4.5_2025,
+    title={GLM-4.5: Reasoning, Coding, and Agentic Abilities},
+    author={Z.ai},
+    journal={Z.ai Technical Blog},
+    year={2025},
+    url={https://docs.z.ai/}
+}
+```
+
+추가 정보 : https://medium.com/data-science-in-your-pocket/glm-4-5-the-best-open-source-ai-model-beats-kimi-k2-qwen3-b56a5df2ec34

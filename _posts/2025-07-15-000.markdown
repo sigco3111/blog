@@ -1,0 +1,186 @@
+---
+layout: post
+title:  "Kimi K2"
+date:   2025-07-15 08:00:00 +0900
+categories: 오픈소스
+---
+
+# 오픈소스 모델 Kimi K2
+
+연관링크
+
+https://www.kimi.com/
+
+https://huggingface.co/moonshotai
+
+https://ai.plainenglish.io/the-breakthrough-ai-model-thats-changing-the-game-meet-kimi-k2-642d71b311dd
+
+
+## China just dropped a trillion-parameter open-source model that out-codes and out-generates the giants. Here’s what it means for the future of AI.
+중국은 거대 기업을 능가하는 1조 매개변수의 오픈 소스 모델을 방금 출시했습니다. 이것이 AI의 미래에 의미하는 바는 다음과 같습니다.
+
+![](https://miro.medium.com/v2/resize:fit:640/format:webp/1*idUd2znuX6STuERfTyOQhQ.png)
+
+AI-Generated Image AI 생성 이미지
+
+> **“Wait… this is open-source?”  
+> "잠깐만요... 이거 오픈 소스야?"**
+
+That was my first reaction watching Kimi K2 generate a real-time, interactive 3D simulation of Earth, with cloud layers, daylight cycles, glowing city lights, meteor defense systems, and rockets. Not a theory. Not a render. A functioning build, delivered in one shot.  
+키미 K2(Kimi K2)가 구름 레이어, 일광 주기, 빛나는 도시의 불빛, 유성 방어 시스템, 로켓을 통해 지구의 실시간 인터랙티브 3D 시뮬레이션을 생성하는 것을 본 첫 번째 반응이었습니다. 이론이 아닙니다. 렌더링이 아닙니다. 한 번에 제공되는 기능적인 빌드.
+
+Not a Medium member? [Click here to read the full story for FREE.](https://medium.com/@GeekSociety/642d71b311dd?sk=b957cb44d1fc314378d0201cf2bd8d45)  
+미디엄 회원이 아니신가요? [전체 이야기를 무료로 읽으려면 여기를 클릭하십시오.](https://medium.com/@GeekSociety/642d71b311dd?sk=b957cb44d1fc314378d0201cf2bd8d45)
+
+Welcome to the era of agentic open-source AI. [Kimi K2](https://www.kimi.com/), developed by Chinese company [Moonshot](https://www.moonshot.cn/), is not just another entry in the LLM race. It might be the most significant open-source release in AI history. And yes, that includes the DeepSeek moment. Because Kimi isn’t here to just *chat*. It’s here to *build*.  
+에이전트 오픈 소스 AI의 시대에 오신 것을 환영합니다. 중국 회사 [Moonshot](https://www.moonshot.cn/) 이 개발한 [Kimi K2](https://www.kimi.com/) 는 LLM 경쟁의 또 다른 항목이 아닙니다. AI 역사상 가장 중요한 오픈 소스 릴리스일 수 있습니다. 그리고 네, 여기에는 DeepSeek의 순간도 포함됩니다. 키미는 그냥 *수다를 떨* 기 위해 온 게 아니니까. *구축하기* 위해 여기에 있습니다.
+
+![](https://x.com/i/status/1943694959057699258)
+
+## The Model That Shouldn’t Exist존재해서는 안 되는 모델
+
+Kimi K2 is a **trillion-parameter mixture-of-experts model**. But don’t let the trillion scare you. Only **32 billion parameters are active at a time**, making it remarkably efficient. More importantly, it’s not just big. It’s **smart**.  
+Kimi K2는 **1조 매개변수의 전문가 혼합 모델** 입니다. 하지만 1조 달러에 겁먹지 마세요. **한 번에 320억 개의 매개변수만 활성화되어** 매우 효율적입니다. 더 중요한 것은 단순히 규모가 크지 않다는 것입니다. **똑똑합니다**.
+
+Kimi is designed for **agentic reasoning** and **execution**. Translation? It doesn’t just answer questions, it solves problems. It generates entire front-ends, simulates worlds, writes competitive code, and executes multi-step workflows with tools. In some tests, it even outperforms Claude Opus and GPT-4.1.  
+Kimi는 **행위자 추론** 과 **실행을** 위해 설계되었습니다. 번역? 질문에 답할 뿐만 아니라 문제를 해결합니다. 전체 프론트엔드를 생성하고, 세계를 시뮬레이션하고, 경쟁력 있는 코드를 작성하고, 도구를 사용하여 다단계 워크플로를 실행합니다. 일부 테스트에서는 Claude Opus 및 GPT-4.1을 능가하기도 합니다.
+
+![](https://miro.medium.com/v2/resize:fit:640/format:webp/1*dlZCKFLEivw5O8gzzqLZgA.png)
+
+Benchmark Performance Comparison 벤치마크 성능 비교
+
+But here’s the kicker: **It’s fully open-source**. From the base foundation model (ideal for researchers) to the ready-to-use “instruct” version, Kimi K2 is accessible on Hugging Face and deployable via API. That alone is a paradigm shift.  
+하지만 여기서 중요한 점은 **완전한 오픈 소스라는** 것입니다. 기본 파운데이션 모델(연구자에게 이상적)에서 바로 사용할 수 있는 "instruct" 버전에 이르기까지 Kimi K2는 Hugging Face에서 액세스할 수 있으며 API를 통해 배포할 수 있습니다. 이것만으로도 패러다임의 전환입니다.## [moonshotai (Moonshot AI) moonshotai(문샷 AI)](https://huggingface.co/moonshotai?source=post_page-----642d71b311dd---------------------------------------)
+
+Org profile for Moonshot AI on Hugging Face, the AI community building the future.미래를 건설하는 AI 커뮤니티인 Hugging Face의 Moonshot AI에 대한 조직 프로필.
+
+huggingface.co
+
+[View original](https://huggingface.co/moonshotai?source=post_page-----642d71b311dd---------------------------------------)
+
+## From Minecraft to Meteor Shields: Kimi in ActionMinecraft에서 Meteor Shields까지: Kimi in Action
+
+You don’t need to read a single benchmark to get it. Just watch what Kimi does:  
+그것을 얻기 위해 단일 벤치 마크를 읽을 필요가 없습니다. Kimi가 하는 일을 지켜보세요.
+
+- **Created a working Minecraft clone**, complete with biomes, trees, and controls.  
+	생물 군계, 나무 및 컨트롤로 완성된 **작동하는 Minecraft 클론을 만들었습니다**.
+![](https://x.com/i/status/1943707506343035345)
+- **Simulated a defend-the-Earth game**, with meteors, scoring logic, and rocket countermeasures.  
+	**지구 방어 게임을 유** 성, 득점 로직, 로켓 대응책으로 시뮬레이션했습니다.
+![](https://x.com/i/status/1943668652315758951)
+
+These aren’t cherry-picked stunts. They’re reproducible outputs that rival proprietary models. And while Claude Opus or GPT-4 may still edge ahead on some abstract reasoning benchmarks, **Kimi wins where it matters: usable, creative generation**.  
+이것들은 선별된 스턴트가 아닙니다. 독점 모델에 필적하는 재현 가능한 출력입니다. 클로드 오푸스(Claude Opus)나 GPT-4는 일부 추상적 추론 벤치마크에서 여전히 앞서 있을 수 있지만, **키미(Kimi)는 사용 가능하고 창의적인 생성이라는 중요한 부분에서 승리합니다**.
+
+## Under the Hood: Why Kimi Matters내부 정보: Kimi가 중요한 이유
+
+What makes Kimi K2 so stable and powerful? A few standout factors:  
+Kimi K2가 안정적이고 강력한 이유는 무엇입니까? 몇 가지 눈에 띄는 요소는 다음과 같습니다.
+
+- **Pretrained on 15 trillion tokens** using the MuonClip optimizer, yielding *zero training spikes* (a first at this scale).  
+	MuonClip 옵티마이저를 사용하여 **15조 개의 토큰에 대해 사전 훈련** 하여 *훈련 스파이크를 0* 으로 산출합니다(이 규모에서는 최초).
+![](https://miro.medium.com/v2/resize:fit:640/format:webp/1*BGxc_jEQlEKmsG1_Xs7hsg.png)
+
+Loss vs Tokens During Training of Kimi K2 Kimi K2 훈련 중 손실 vs 토큰
+
+- **Token efficiency** guided by new scaling laws inspired by Ilia Sutskever’s data theory: Think of tokens like fossil fuel, you want to burn them wisely.  
+	일리아 수츠케버(Ilia Sutskever)의 데이터 이론에서 영감을 받은 새로운 스케일링 법칙에 따른 **토큰 효율성**: 토큰을 화석 연료와 같다고 생각하면 현명하게 소각해야 합니다.
+- **Open architecture** that enables local quantized versions, like running the model in 4-bit on an M3 Ultra setup. Yes, local trillion-param inference is here.  
+	M3 Ultra 설정에서 4비트로 모델을 실행하는 것과 같은 로컬 양자화 버전을 가능하게 하는 **개방형 아키텍처** 입니다. 예, 로컬 trillion-param 추론이 여기에 있습니다.
+![](https://x.com/i/status/1943723599971443134)
+
+This means researchers, devs, and hobbyists can build on top of Kimi right now, no closed gates, no API paywalls, no model licensing drama.  
+즉, 연구자, 개발자, 취미 활동가들은 지금 당장 Kimi를 기반으로 구축할 수 있으며, 닫힌 게이트, API 페이월, 모델 라이선싱 드라마 없이 구축할 수 있습니다.
+
+## What This Means for AI’s Power Dynamics이것이 AI의 파워 다이나믹스에 미치는 영향
+
+Let’s call it what it is: **China is winning the open-source AI game**. First DeepSeek shook the landscape. Now Kimi K2 is redefining it.  
+있는 그대로 말하자면, **중국이 오픈소스 인공지능 게임에서 이기고** 있다. 먼저 DeepSeek가 판도를 뒤흔들었습니다. 이제 Kimi K2가 그것을 재정의하고 있습니다.
+
+![](https://x.com/i/status/1944056316424577525)
+
+And the ripple effects are massive:  
+그리고 파급 효과는 엄청납니다.
+
+- **Developer tools** like Cursor might default to open models like Kimi, driving costs down.  
+	Cursor와 같은 **개발자 도구는** 기본적으로 Kimi와 같은 모델을 열어 비용을 절감할 수 있습니다.
+- **Startups** can now match Frontier Labs without $100M training runs.  
+	**스타트업은** 이제 $100M 교육 실행 없이 Frontier Labs를 매칭할 수 있습니다.
+- **Local AI sovereignty** becomes real, imagine enterprises fine-tuning trillion-param models in-house.  
+	**지역 AI 주권** 이 현실이 되고, 기업이 사내에서 1조 매개변수 모델을 미세 조정하는 것을 상상해 보십시오.
+
+Meanwhile, US big-tech labs are cornered. Their proprietary models are great, but they’re not **free**, and they’re not **flexible**. Kimi K2 just made that trade-off too expensive to ignore.  
+한편 미국의 빅테크 연구소들은 궁지에 몰려 있다. 그들의 독점 모델은 훌륭하지만 **무료** 가 아니며 **유연** 하지 않습니다. Kimi K2는 그 트레이드 오프를 무시하기에는 너무 비싸게 만들었습니다.
+
+## The Open-Source Renaissance Is Here오픈 소스 르네상스가 여기에 있습니다.
+
+From RL breakthroughs like GRPO to agentic frameworks evolving daily, the ecosystem is accelerating. Kimi is not a lone marvel. It’s the first wave of a surge.  
+GRPO와 같은 RL 혁신부터 매일 진화하는 에이전트 프레임워크에 이르기까지 에코시스템은 가속화되고 있습니다. 키미는 혼자만의 경이로움이 아닙니다. 이것은 급증의 첫 번째 물결입니다.
+
+And that surge will redefine what AI means to the average person. No longer just chatbots and assistants. Think **interactive worlds**, **creative agents**, **custom copilots**.  
+그리고 이러한 급증은 AI가 일반인에게 의미하는 바를 재정의할 것입니다. 더 이상 챗봇과 비서만이 아닙니다. **인터랙티브 세계**, **크리에이티브 에이전트**, **맞춤형 부조종사를** 생각해 보세요.
+
+When models like Kimi can run on laptops and simulate planets, the line between user and creator blurs. This is the democratization of AGI.  
+Kimi와 같은 모델을 노트북에서 실행하고 행성을 시뮬레이션할 수 있게 되면 사용자와 크리에이터 사이의 경계가 모호해집니다. 이것이 AGI의 민주화입니다.
+
+So yes, Kimi just broke the AI industry. But it didn’t break it by outscoring benchmarks. It broke it by being **free**, **capable**, and **here**.  
+네, Kimi는 AI 산업을 망가뜨렸습니다. 그러나 벤치마크를 능가하여 이를 깨뜨리지는 않았습니다. 그것은 **자유롭** 고, **유능** 하고, **여기에** 있음으로써 그것을 깨뜨렸습니다.
+
+**If you’re not already exploring what Kimi K2 can do, you’re behind.  
+Kimi K2가 무엇을 할 수 있는지 아직 탐색하고 있지 않다면 뒤처진 것입니다.
+
+
+---
+
+# Kimi K2 요약
+
+**Kimi K2**는 Moonshot AI에서 개발한 **1조 파라미터**의 오픈소스 언어 모델로, **MoE(Mixture-of-Experts)** 아키텍처를 기반으로 에이전트형 AI에 특화된 성능을 제공합니다. 2025년 7월 11일 공개된 이 모델은 코딩, 데이터 분석, 복잡한 워크플로우 자동화에 강력한 도구입니다.
+
+## 주요 특징
+- **MoE 아키텍처**: 384개 전문가 중 8개 활성화, 320억 파라미터로 효율적 연산.
+- **대규모 학습**: 15.5조 토큰으로 사전 학습, 높은 일반화 능력.
+- **MuonClip 최적화**: qk-clip 기술로 안정적 학습 보장.
+- **긴 컨텍스트**: 최대 128K 토큰 처리로 긴 문서 및 복잡한 대화 지원.
+- **에이전트 기능**: 코드 작성, 디버깅, API 호출, 데이터 분석 등 수행.
+
+## 모델 변형
+- **Kimi-K2-Base**: 연구 및 세부 조정(fine-tuning)에 적합.
+- **Kimi-K2-Instruct**: 대화 및 작업 수행에 최적화.
+
+## 성능 (벤치마크)
+- **SWE-bench Verified**: 65.8% (Claude 4 Sonnet, GPT-4.1 상회).
+- **LiveCodeBench**: 53.7% (GPT-4.1 44.7%, DeepSeek-V3 46.9% 초과).
+- **MATH-500**: 97.4% (GPT-4.1 92.4% 상회).
+- **MMLU**: 87.8점, 오픈소스 모델 중 상위.
+- **Tau-2, AceBench**: 복잡한 워크플로우 및 도구 사용에서 탁월.
+
+## 활용 사례
+- **코딩**: GitHub 이슈 해결, 풀스택 개발, 경쟁 프로그래밍.
+- **데이터 분석**: 통계 테스트, 시각화, 의사결정 지원.
+- **복잡한 워크플로우**: API 호출, 파일 편집, 셸 명령 자동화.
+- **연구**: 긴 문서 처리, 다국어 작업.
+
+## 접근 방법
+- **웹**: [kimi.com](https://kimi.com)에서 무료 테스트 (중국어 UI, 번역 필요).
+- **Hugging Face Spaces**: 무료 데모, 속도 느림.
+- **로컬 실행**: Hugging Face에서 가중치 다운로드, vLLM/SGLang 사용 (1TB 모델, 고성능 GPU 필요).
+- **API**: OpenAI/Anthropic 호환, 입력 $0.60/백만 토큰, 출력 $2.50/백만 토큰.
+
+## 장점
+- 오픈소스, 상업적 이용 가능 (월 1억 사용자/2천만 달러 수익 시 "Kimi K2" 표시).
+- 독점 모델(Claude 4, GPT-4.1)과 경쟁하는 성능.
+- 긴 컨텍스트로 복잡한 작업 처리.
+
+## 한계
+- **멀티모달 미지원**: 텍스트만 처리, 이미지/음성 불가.
+- **하드웨어 요구**: 로컬 실행 시 고성능 GPU 또는 250GB RAM 필요.
+- **중국어 UI**: 번역 필요.
+- **추론 모드**: 사고 모드 미지원, 즉각 응답 중심.
+
+## 시작하기
+- **체험**: [kimi.com](https://kimi.com)에서 Kimi-K2 무료 사용.
+- **개발자**: Hugging Face에서 모델 다운로드 또는 [platform.moonshot.ai](https://platform.moonshot.ai)로 API 사용.
+- **문의**: [support@moonshot.cn](mailto:support@moonshot.cn).
+
+**Kimi K2**는 오픈소스 AI의 기준을 높이며, 코딩과 자동화에서 혁신을 제공합니다. 지금 [kimi.com](https://kimi.com)에서 체험하세요!

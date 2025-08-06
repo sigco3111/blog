@@ -1,0 +1,121 @@
+---
+layout: post
+title:  "Qwen3-Coder"
+date:   2025-07-24 08:00:00 +0900
+categories: 오픈소스
+---
+
+# 알리바바 클라우드의 코딩특화 오픈소스 모델
+
+출처1 : https://github.com/QwenLM/Qwen3-Coder
+
+출처2 : https://news.hada.io/topic?id=22129
+
+## 설명
+
+`Qwen3-Coder`는 알리바바 클라우드의 Qwen 팀이 개발한 Qwen3 대형 언어 모델 시리즈의 코딩 특화 버전입니다. 이 모델은 코딩 및 에이전트 기반 작업에 최적화되어 있으며, 특히 **Qwen3-Coder-480B-A35B-Instruct**는 4800억 개 파라미터와 350억 개 활성 파라미터를 가진 Mixture-of-Experts(MoE) 모델로, 오픈소스 모델 중 에이전트 코딩, 브라우저 사용, 도구 활용에서 최상위 성능을 달성했습니다. Apache 2.0 라이선스 하에 오픈 웨이트로 제공되며, 256K 토큰의 긴 컨텍스트를 기본 지원하고 Yarn을 통해 최대 1M 토큰까지 확장 가능합니다.[](https://github.com/QwenLM/Qwen3-Coder)
+
+## 주요 특징
+
+### 1. 성능
+- **에이전트 코딩**: Qwen3-Coder-480B-A35B-Instruct는 SWE-Bench Verified에서 Claude Sonnet 4와 유사한 성능(69.6% 검증 정확도, 단일 샷 67.0%)을 달성하며, 오픈소스 모델 중 최고 성능을 기록.[](https://github.com/QwenLM/Qwen3-Coder)[](https://qwenlm.github.io/blog/qwen3-coder/)
+- **코딩 언어 지원**: 358개 프로그래밍 언어 지원(예: Python, C, C++, Java, JavaScript, Go 등).[](https://github.com/QwenLM/Qwen3-Coder)
+- **수학 및 일반 능력**: Qwen3의 기본 모델에서 수학 및 일반 추론 능력을 유지.
+
+### 2. 긴 컨텍스트 처리
+- **기본**: 256K 토큰 컨텍스트 지원.
+- **확장**: Yarn을 통해 최대 1M 토큰 처리, 대규모 코드베이스 및 동적 데이터(예: 풀 리퀘스트) 처리에 최적화.[](https://qwenlm.github.io/blog/qwen3-coder/)
+
+### 3. 에이전트 기능
+- **도구 호출**: `qwen3coder_tool_parser.py`를 통해 최적화된 함수 호출 파서 제공, Qwen Code 및 CLINE과 통합.[](https://github.com/QwenLM/Qwen3-Coder)
+- **워크플로우 자동화**: 풀 리퀘스트 처리, 리베이스 등 운영 작업 자동화 지원.[](https://qwenlm.github.io/blog/qwen3-coder/)
+
+### 4. 오픈소스
+- **라이선스**: Apache 2.0, 상업적 및 연구 용도에 자유롭게 사용 가능.
+- **배포**: Hugging Face 및 ModelScope에서 모델 가중치 제공.[](https://github.com/QwenLM/Qwen3-Coder)
+
+## 설치 및 사용
+
+### 1. 요구사항
+- **Python**: 3.10 이상.
+- **PyTorch**: 2.6 이상.
+- **Transformers**: 최신 버전(4.51.0 이상) 권장.
+- **하드웨어**: Qwen3-Coder-480B-A35B-Instruct는 고성능 GPU(예: A100) 필요, FP8 버전은 메모리 효율성 개선.
+
+### 2. 설치
+1. 저장소 클론:
+   ```bash
+   git clone https://github.com/QwenLM/Qwen3-Coder.git
+   cd Qwen3-Coder
+   ```
+2. 의존성 설치:
+   ```bash
+   pip install transformers torch
+   ```
+3. 모델 및 토크나이저 로드:
+   ```python
+   from transformers import AutoModelForCausalLM, AutoTokenizer
+
+   model_name = "Qwen/Qwen3-Coder-480B-A35B-Instruct"
+   model = AutoModelForCausalLM.from_pretrained(model_name, device_map="auto")
+   tokenizer = AutoTokenizer.from_pretrained(model_name)
+   ```
+
+### 3. 사용 예시
+#### 1) 코드 작성
+퀵소트 알고리즘 생성 예시:
+```python
+prompt = "write a quick sort algorithm."
+messages = [{"role": "user", "content": prompt}]
+text = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+model_inputs = tokenizer([text], return_tensors="pt").to(model.device)
+generated_ids = model.generate(**model_inputs, max_new_tokens=65536)
+response = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
+print(response)
+```
+
+#### 2) 코드 완성 (Fill-in-the-Middle)
+```python
+input_text = """def quicksort(arr):
+    if len(arr) middle = [x for x in arr if x == pivot]
+    right = [x for x in arr if x > pivot]
+    return quicksort(left) + middle + quicksort(right)"""
+messages = [
+    {"role": "system", "content": "You are a code completion assistant."},
+    {"role": "user", "content": input_text}
+]
+text = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+model_inputs = tokenizer([text], return_tensors="pt").to(model.device)
+generated_ids = model.generate(model_inputs.input_ids, max_new_tokens=512, do_sample=False)[0]
+output_text = tokenizer.decode(generated_ids[len(model_inputs.input_ids[0]):], skip_special_tokens=True)
+print(f"Generated text: {output_text}")
+```
+
+## 프로젝트 구조
+```
+Qwen3-Coder/
+├── qwen3coder_tool_parser.py  # 함수 호출 파서
+├── docs/                     # 문서
+├── examples/                 # 예제 코드
+├── tests/                    # 테스트 파일
+```
+
+## 한계
+- **비사고 모드**: Qwen3-Coder-480B-A35B-Instruct는 비사고 모드만 지원하며, `...` 블록 생성 불가.[](https://github.com/QwenLM/Qwen3-Coder)
+- **리소스 요구**: 대형 모델은 고성능 GPU 필요.
+- **API 비용**: 다중 API 호출로 인해 토큰 사용량 증가 가능.[](https://qwenlm.github.io/blog/qwen3-coder/)
+
+## 기여 방법
+- **문서**: `CONTRIBUTING.md` 참조.
+- **이슈 및 PR**: GitHub 이슈를 통해 피드백 제출 및 풀 리퀘스트로 기여.
+- **커뮤니티**: Discord 및 WeChat 그룹을 통해 논의.[](https://github.com/QwenLM/Qwen3-Coder)
+
+## 참고 자료
+- **공식 저장소**: [https://github.com/QwenLM/Qwen3-Coder](https://github.com/QwenLM/Qwen3-Coder)[](https://github.com/QwenLM/Qwen3-Coder)
+- **Hugging Face**: [https://huggingface.co/Qwen](https://huggingface.co/Qwen)[](https://github.com/QwenLM/Qwen3-Coder)
+- **ModelScope**: [https://modelscope.cn](https://modelscope.cn)[](https://github.com/QwenLM/Qwen3-Coder)
+- **기술 보고서**: [https://arxiv.org/abs/2505.09388](https://arxiv.org/abs/2505.09388)[](https://github.com/QwenLM/Qwen3-Coder)
+- **블로그**: [https://qwenlm.github.io](https://qwenlm.github.io)[](https://qwenlm.github.io/blog/qwen3-coder/)
+
+## 결론
+Qwen3-Coder는 Qwen3 시리즈의 코딩 특화 모델로, 에이전트 코딩, 긴 컨텍스트 처리, 다중 언어 지원에서 탁월한 성능을 제공합니다. Qwen Code CLI와 통합되어 개발자 워크플로우를 효율화하며, 오픈소스 특성으로 커뮤니티 기여를 장려합니다. 대규모 코드베이스 관리와 복잡한 작업 자동화에 이상적이며, 지속적인 업데이트로 성능이 개선되고 있습니다.[](https://github.com/QwenLM/Qwen3-Coder)[](https://qwenlm.github.io/blog/qwen3-coder/)

@@ -1,0 +1,140 @@
+---
+layout: default
+---
+
+<div class="dashboard-container">
+  <header class="dashboard-header">
+    <h1 class="page-heading">{{ page.title | escape }}</h1>
+    <p class="dashboard-description">블로그 통계와 데이터를 한눈에 확인하세요</p>
+  </header>
+
+  <main class="dashboard-content">
+    <!-- 기본 통계 섹션 -->
+    <section class="dashboard-section stats-section">
+      <h2 class="section-title">기본 통계</h2>
+      <div class="stats-grid">
+        {% assign total_posts = site.posts | size %}
+        {% assign total_categories = site.categories | size %}
+        {% assign total_words = 0 %}
+        {% for post in site.posts %}
+          {% assign words = post.content | number_of_words %}
+          {% assign total_words = total_words | plus: words %}
+        {% endfor %}
+        {% if total_posts > 0 %}
+          {% assign avg_words = total_words | divided_by: total_posts %}
+        {% else %}
+          {% assign avg_words = 0 %}
+        {% endif %}
+
+        <div class="stat-card">
+          <div class="stat-number">{{ total_posts }}</div>
+          <div class="stat-label">전체 포스트</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-number">{{ total_categories }}</div>
+          <div class="stat-label">카테고리 수</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-number">{{ total_words | number_with_delimiter }}</div>
+          <div class="stat-label">총 단어 수</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-number">{{ avg_words }}</div>
+          <div class="stat-label">평균 포스트 길이</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 카테고리 분포 차트 섹션 -->
+    <section class="dashboard-section chart-section">
+      <h2 class="section-title">카테고리별 포스트 분포</h2>
+      <div class="chart-container">
+        {% if site.categories.size > 0 %}
+          {% assign max_posts = 0 %}
+          {% for category in site.categories %}
+            {% assign category_size = category[1] | size %}
+            {% if category_size > max_posts %}
+              {% assign max_posts = category_size %}
+            {% endif %}
+          {% endfor %}
+
+          <div class="category-chart">
+            {% for category in site.categories %}
+              {% assign category_name = category[0] %}
+              {% assign category_posts = category[1] %}
+              {% assign post_count = category_posts | size %}
+              {% assign percentage = post_count | times: 100.0 | divided_by: max_posts %}
+              
+              <div class="chart-bar">
+                <div class="bar-label">{{ category_name }}</div>
+                <div class="bar-container">
+                  <div class="bar-fill" style="width: {{ percentage }}%"></div>
+                  <span class="bar-value">{{ post_count }}</span>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="empty-state">
+            <p>아직 카테고리가 없습니다.</p>
+          </div>
+        {% endif %}
+      </div>
+    </section>
+
+    <!-- 최근 포스트 섹션 -->
+    <section class="dashboard-section recent-posts-section">
+      <h2 class="section-title">최근 포스트</h2>
+      <div class="recent-posts-container">
+        {% if site.posts.size > 0 %}
+          {% assign recent_posts = site.posts | limit: 5 %}
+          <div class="recent-posts-list">
+            {% for post in recent_posts %}
+              <div class="recent-post-item">
+                <div class="post-meta">
+                  <span class="post-date">{{ post.date | date: "%Y.%m.%d" }}</span>
+                  {% if post.categories.size > 0 %}
+                    <span class="post-category">{{ post.categories | first }}</span>
+                  {% else %}
+                    <span class="post-category">미분류</span>
+                  {% endif %}
+                </div>
+                <h3 class="post-title">
+                  <a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
+                </h3>
+                {% if post.excerpt %}
+                  <p class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 20 }}</p>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="empty-state">
+            <p>아직 작성된 포스트가 없습니다.</p>
+          </div>
+        {% endif %}
+      </div>
+    </section>
+
+    <!-- 월별 통계 섹션 -->
+    <section class="dashboard-section monthly-stats-section">
+      <h2 class="section-title">월별 포스트 통계</h2>
+      <div class="monthly-stats-container">
+        <!-- 월별 통계가 여기에 추가될 예정 -->
+      </div>
+    </section>
+
+    <!-- 인기 카테고리 섹션 -->
+    <section class="dashboard-section popular-categories-section">
+      <h2 class="section-title">인기 카테고리 TOP 5</h2>
+      <div class="popular-categories-container">
+        <!-- 인기 카테고리 목록이 여기에 추가될 예정 -->
+      </div>
+    </section>
+  </main>
+</div>
+
+{{ content }}
