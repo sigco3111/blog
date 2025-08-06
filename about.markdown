@@ -4,15 +4,14 @@ title: About
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
+### 연관 페이지
 
-You can find the source code for Minima at GitHub:
-[jekyll][jekyll-organization] /
-[minima](https://github.com/jekyll/minima)
+ICBM 포탈 페이지 :
+[https://mac-board.vercel.app/](https://mac-board.vercel.app/)
 
-You can find the source code for Jekyll at GitHub:
-[jekyll][jekyll-organization] /
-[jekyll](https://github.com/jekyll/jekyll)
+AI 도구 관련 페이지 : 
+[https://tech-toolkit-hub.vercel.app/](https://tech-toolkit-hub.vercel.app/)
 
 
-[jekyll-organization]: https://github.com/jekyll
+데브캔버스 (토이프로젝트 모음) : 
+[https://dev-canvas-pi.vercel.app/](https://dev-canvas-pi.vercel.app/)
