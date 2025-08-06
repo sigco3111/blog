@@ -1,0 +1,20 @@
+User-agent: *
+Allow: /
+
+# Jekyll 어드민 사이트 접근 제한
+Disallow: /admin/
+Disallow: /admin/*
+
+# 기타 관리 파일들
+Disallow: /.env
+Disallow: /.git/
+Disallow: /.github/
+Disallow: /.kiro/
+Disallow: /node_modules/
+
+# Jekyll 캐시 및 빌드 파일
+Disallow: /.jekyll-cache/
+Disallow: /_site/admin/
+
+# 사이트맵 위치
+Sitemap: https://your-domain.github.io/sitemap.xml

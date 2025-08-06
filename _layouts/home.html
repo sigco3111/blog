@@ -1,0 +1,67 @@
+---
+layout: default
+---
+
+<div class="home">
+  {%- if page.title -%}
+    <h1 class="page-heading">{{ page.title }}</h1>
+  {%- endif -%}
+
+  <!-- Search Section -->
+  <div class="search-section">
+    <div class="search-container">
+      <div class="search-input-wrapper">
+        <span class="search-icon">🔍</span>
+        <input 
+          type="text" 
+          id="blog-search" 
+          class="search-input" 
+          placeholder="포스트 검색..."
+          autocomplete="off"
+        >
+        <button class="search-clear" id="blog-search-clear" style="display: none;" title="검색어 지우기">✕</button>
+      </div>
+      <div class="search-suggestions" id="blog-search-suggestions" style="display: none;"></div>
+    </div>
+    <div class="search-results-info" id="blog-search-results-info" style="display: none;"></div>
+  </div>
+
+  {{ content }}
+
+  {%- if site.posts.size > 0 -%}
+    <h2 class="post-list-heading">{{ page.list_title | default: "Posts" }}</h2>
+    <ul class="post-list" id="blog-post-list">
+      {%- for post in site.posts -%}
+      <li class="post-item" data-title="{{ post.title | downcase }}" data-content="{{ post.content | strip_html | downcase }}" data-categories="{{ post.categories | join: ' ' | downcase }}" data-tags="{{ post.tags | join: ' ' | downcase }}" data-date="{{ post.date | date: '%Y-%m-%d' }}">
+        {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+        <span class="post-meta">{{ post.date | date: date_format }}</span>
+        <h3>
+          <a class="post-link" href="{{ post.url | relative_url }}">
+            {{ post.title | escape }}
+          </a>
+        </h3>
+        {%- if site.show_excerpts -%}
+          <div class="post-excerpt">{{ post.excerpt }}</div>
+        {%- endif -%}
+        {%- if post.categories.size > 0 -%}
+          <div class="post-categories">
+            {%- for category in post.categories -%}
+              <span class="category-tag">{{ category }}</span>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+        {%- if post.tags.size > 0 -%}
+          <div class="post-tags">
+            {%- for tag in post.tags -%}
+              <span class="tag-badge">{{ tag }}</span>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </li>
+      {%- endfor -%}
+    </ul>
+
+    <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | relative_url }}">via RSS</a></p>
+  {%- endif -%}
+
+</div>

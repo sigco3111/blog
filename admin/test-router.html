@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Router Test - Jekyll Admin</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 2rem;
+        }
+        .test-section {
+            margin: 2rem 0;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .nav-links {
+            margin: 1rem 0;
+        }
+        .nav-links a {
+            display: inline-block;
+            margin-right: 1rem;
+            padding: 0.5rem 1rem;
+            background: #007cba;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        #content {
+            margin: 2rem 0;
+            padding: 1rem;
+            background: #f5f5f5;
+            border-radius: 4px;
+            min-height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Router Test</h1>
+    
+    <div class="test-section">
+        <h2>Navigation Links</h2>
+        <div class="nav-links">
+            <a href="#/dashboard" data-route="/dashboard">Dashboard</a>
+            <a href="#/posts" data-route="/posts">Posts</a>
+            <a href="#/settings" data-route="/settings">Settings</a>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Current Route Info</h2>
+        <div id="route-info">
+            <p>Current Route: <span id="current-route">-</span></p>
+            <p>Current Path: <span id="current-path">-</span></p>
+            <p>Current Hash: <span id="current-hash">-</span></p>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Content Area</h2>
+        <div id="content">
+            <p>Content will be rendered here based on the current route.</p>
+        </div>
+    </div>
+
+    <script type="module">
+        import { Router } from './assets/js/modules/router.js';
+
+        class RouterTest {
+            constructor() {
+                this.routes = {
+                    '/': 'home',
+                    '/dashboard': 'dashboard',
+                    '/posts': 'posts',
+                    '/settings': 'settings'
+                };
+                
+                this.router = new Router(this.routes);
+                this.init();
+            }
+
+            init() {
+                console.log('Initializing router test...');
+                
+                // Initialize router
+                this.router.init(
+                    (route, routeInfo) => this.handleRouteChange(route, routeInfo)
+                );
+                
+                // Setup navigation click handlers
+                document.addEventListener('click', (e) => {
+                    if (e.target.matches('[data-route]')) {
+                        e.preventDefault();
+                        const route = e.target.getAttribute('data-route');
+                        console.log('Navigating to:', route);
+                        this.router.navigate(route);
+                    }
+                });
+                
+                // Update route info display
+                this.updateRouteInfo();
+                
+                // Listen for hash changes
+                window.addEventListener('hashchange', () => {
+                    this.updateRouteInfo();
+                });
+            }
+
+            handleRouteChange(route, routeInfo) {
+                console.log('Route changed:', route, routeInfo);
+                
+                const contentDiv = document.getElementById('content');
+                
+                switch (route) {
+                    case 'dashboard':
+                        contentDiv.innerHTML = '<h3>Dashboard</h3><p>Dashboard content goes here.</p>';
+                        break;
+                    case 'posts':
+                        contentDiv.innerHTML = '<h3>Posts</h3><p>Posts management content goes here.</p>';
+                        break;
+                    case 'settings':
+                        contentDiv.innerHTML = '<h3>Settings</h3><p>Settings configuration content goes here.</p>';
+                        break;
+                    case 'home':
+                        contentDiv.innerHTML = '<h3>Home</h3><p>Welcome to the admin panel.</p>';
+                        break;
+                    default:
+                        contentDiv.innerHTML = '<h3>404</h3><p>Page not found.</p>';
+                }
+                
+                this.updateRouteInfo();
+            }
+
+            updateRouteInfo() {
+                document.getElementById('current-route').textContent = this.router.currentRoute || '-';
+                document.getElementById('current-path').textContent = window.location.pathname || '-';
+                document.getElementById('current-hash').textContent = window.location.hash || '-';
+            }
+        }
+
+        // Initialize test when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new RouterTest();
+        });
+    </script>
+</body>
+</html>
