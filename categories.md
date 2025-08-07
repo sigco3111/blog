@@ -22,7 +22,7 @@ custom_css: categories
       {% assign total_categories = total_categories | plus: 1 %}
       
       <div class="category-item">
-        <h3><a href="{{ site.baseurl }}/category/{{ category_name | slugify }}/">{{ category_name }}</a></h3>
+        <h3><a href="{{ site.baseurl }}/category/{{ category_name }}/">{{ category_name }}</a></h3>
         <span class="post-count">{{ post_count }} 포스트</span>
       </div>
     {% endfor %}
@@ -33,7 +33,7 @@ custom_css: categories
   {% if uncategorized_posts.size > 0 %}
     {% assign total_categories = total_categories | plus: 1 %}
     <div class="category-item">
-      <h3><a href="{{ site.baseurl }}/category/{{ '미분류' | slugify }}/">미분류</a></h3>
+      <h3><a href="{{ site.baseurl }}/category/미분류/">미분류</a></h3>
       <span class="post-count">{{ uncategorized_posts.size }} 포스트</span>
     </div>
   {% endif %}

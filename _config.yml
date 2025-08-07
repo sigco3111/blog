@@ -98,6 +98,13 @@ plugins:
   - jekyll-feed
   - jekyll-paginate
 
+# GitHub Pages 환경에서 사용자 정의 플러그인 사용 제한
+safe: true # GitHub Pages와의 호환성을 위해 안전 모드 활성화
+
+# 카테고리 페이지 명시적 포함
+include:
+  - category
+
 # 페이징 설정
 paginate: 10
 paginate_path: "/page:num/"
