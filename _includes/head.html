@@ -5,6 +5,17 @@
   {%- seo -%}
   <link rel="stylesheet" href="{{ "/assets/main.css" | relative_url }}">
   <link rel="stylesheet" href="{{ "/assets/css/blog-search.css" | relative_url }}">
+  <link rel="stylesheet" href="{{ "/assets/css/dashboard.css" | relative_url }}">
+  <link rel="stylesheet" href="{{ "/assets/css/categories.css" | relative_url }}">
+  <link rel="stylesheet" href="{{ "/assets/css/accessibility.css" | relative_url }}">
+  <link rel="stylesheet" href="{{ "/assets/css/pagination.css" | relative_url }}">
+  
+  {%- if page.custom_css -%}
+    <link rel="stylesheet" href="{{ "/assets/css/" | append: page.custom_css | append: ".css" | relative_url }}">
+  {%- endif -%}
+  {%- if layout.custom_css -%}
+    <link rel="stylesheet" href="{{ "/assets/css/" | append: layout.custom_css | append: ".css" | relative_url }}">
+  {%- endif -%}
   <!-- 파비콘 설정 -->
   <link rel="icon" href="{{ "/assets/image/favicon/favicon.svg" | relative_url }}" type="image/svg+xml">
   <link rel="icon" href="{{ "/assets/image/favicon/favicon.ico" | relative_url }}" sizes="any">

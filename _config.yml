@@ -26,22 +26,43 @@ baseurl: "/blog" # the subpath of your site, e.g. /blog
 url: "https://sigco3111.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: sigco3111k
 github_username:  sigco3111
+lang: ko
 
 # Build settings
 theme: minima
 plugins:
   - jekyll-feed
 
-# 성능 최적화
+# 성능 최적화 설정
 sass:
   style: compressed
+  sourcemap: never
   
-# 보안 설정
+# 빌드 성능 최적화
+incremental: true
+profile: false
+strict_front_matter: false
+liquid:
+  error_mode: warn
+  strict_filters: false
+  strict_variables: false
+
+# 캐시 및 메모리 최적화
+keep_files:
+  - .git
+  - .svn
+future: false
+unpublished: false
+limit_posts: 0
+
+# 보안 및 제외 설정 최적화
 exclude:
   - .env
   - .env.*
   - node_modules/
   - "*.log"
+  - "*.tmp"
+  - "*.temp"
   - Gemfile
   - Gemfile.lock
   - package.json
@@ -51,14 +72,47 @@ exclude:
   - .eslintrc*
   - .stylelintrc*
   - .prettierrc*
-
-# 캐시 설정
-incremental: true
-profile: false
+  - .DS_Store
+  - Thumbs.db
+  - .vscode/
+  - .idea/
+  - "*.swp"
+  - "*.swo"
+  - .jekyll-cache/
+  - .sass-cache/
+  - vendor/
+  - spec/
+  - test/
+  - tests/
+  - features/
+  - benchmark/
+  - script/
+  - scripts/
 
 # 개발 환경 설정
 livereload: true
 open_url: true
+
+# 플러그인 성능 설정
+plugins:
+  - jekyll-feed
+  - jekyll-paginate
+
+# 페이징 설정
+paginate: 10
+paginate_path: "/page:num/"
+paginate_categories: 10
+
+# 압축 및 최적화
+compress_html:
+  clippings: all
+  comments: ["<!-- ", " -->"]
+  endings: all
+  ignore:
+    envs: [development]
+  blanklines: false
+  profile: false
+  startings: [html, head, body]
 
 # Exclude from processing.
 # The following items will not be processed, by default.

@@ -1,0 +1,308 @@
+---
+---
+
+/* 페이징 스타일 */
+.pagination-container {
+  margin: 40px 0;
+  text-align: center;
+}
+
+.pagination {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 8px;
+  border: 1px solid #e1e4e8;
+}
+
+.pagination li {
+  margin: 0;
+}
+
+.pagination a,
+.pagination span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 8px 12px;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+/* 일반 페이지 링크 */
+.pagination a {
+  color: #586069;
+  background: #f6f8fa;
+}
+
+.pagination a:hover {
+  color: #0366d6;
+  background: #e1f5fe;
+  border-color: #0366d6;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(3, 102, 214, 0.2);
+}
+
+/* 현재 페이지 */
+.pagination .current {
+  color: #fff;
+  background: linear-gradient(135deg, #0366d6 0%, #0256cc 100%);
+  border-color: #0366d6;
+  box-shadow: 0 2px 4px rgba(3, 102, 214, 0.3);
+  font-weight: 600;
+}
+
+/* 이전/다음 버튼 */
+.pagination .prev,
+.pagination .next {
+  font-weight: 600;
+  min-width: 80px;
+}
+
+.pagination .prev a,
+.pagination .next a {
+  background: linear-gradient(135deg, #f6f8fa 0%, #e1e4e8 100%);
+  color: #24292e;
+  border: 1px solid #d1d5da;
+}
+
+.pagination .prev a:hover,
+.pagination .next a:hover {
+  background: linear-gradient(135deg, #0366d6 0%, #0256cc 100%);
+  color: #fff;
+  border-color: #0366d6;
+}
+
+/* 비활성화된 이전/다음 버튼 */
+.pagination .prev.disabled,
+.pagination .next.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination .prev.disabled a,
+.pagination .next.disabled a {
+  color: #959da5;
+  background: #f6f8fa;
+  border-color: #e1e4e8;
+  cursor: not-allowed;
+}
+
+.pagination .prev.disabled a:hover,
+.pagination .next.disabled a:hover {
+  color: #959da5;
+  background: #f6f8fa;
+  border-color: #e1e4e8;
+  transform: none;
+  box-shadow: none;
+}
+
+/* 생략 표시 (...) */
+.pagination .gap {
+  color: #959da5;
+  background: transparent;
+  cursor: default;
+  font-weight: 600;
+}
+
+/* 페이징 정보 */
+.pagination-info {
+  margin-top: 16px;
+  color: #586069;
+  font-size: 14px;
+  text-align: center;
+}
+
+.pagination-info strong {
+  color: #24292e;
+  font-weight: 600;
+}
+
+/* 아이콘 추가 */
+.pagination .prev a::before {
+  content: '←';
+  margin-right: 6px;
+  font-weight: bold;
+}
+
+.pagination .next a::after {
+  content: '→';
+  margin-left: 6px;
+  font-weight: bold;
+}
+
+/* 반응형 디자인 */
+@media screen and (max-width: 768px) {
+  .pagination {
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: 6px;
+  }
+  
+  .pagination a,
+  .pagination span {
+    min-width: 36px;
+    height: 36px;
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+  
+  .pagination .prev,
+  .pagination .next {
+    min-width: 70px;
+  }
+  
+  /* 모바일에서는 일부 페이지 번호 숨김 */
+  .pagination li:not(.prev):not(.next):not(.current):not(.gap) {
+    display: none;
+  }
+  
+  /* 현재 페이지 주변 1개씩만 표시 */
+  .pagination li.current ~ li:nth-child(-n+2):not(.next):not(.gap),
+  .pagination li.current ~ li:nth-child(n-2):not(.prev):not(.gap) {
+    display: flex;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .pagination-container {
+    margin: 30px 0;
+  }
+  
+  .pagination {
+    gap: 2px;
+    padding: 4px;
+  }
+  
+  .pagination a,
+  .pagination span {
+    min-width: 32px;
+    height: 32px;
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+  
+  .pagination .prev,
+  .pagination .next {
+    min-width: 60px;
+  }
+  
+  .pagination-info {
+    font-size: 13px;
+    margin-top: 12px;
+  }
+}
+
+/* 다크 모드 지원 */
+@media (prefers-color-scheme: dark) {
+  .pagination {
+    background: #161b22;
+    border-color: #30363d;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  .pagination a {
+    color: #c9d1d9;
+    background: #21262d;
+  }
+  
+  .pagination a:hover {
+    color: #58a6ff;
+    background: #0d1117;
+    border-color: #58a6ff;
+  }
+  
+  .pagination .current {
+    background: linear-gradient(135deg, #58a6ff 0%, #1f6feb 100%);
+    border-color: #58a6ff;
+  }
+  
+  .pagination .prev a,
+  .pagination .next a {
+    background: linear-gradient(135deg, #21262d 0%, #30363d 100%);
+    color: #c9d1d9;
+    border-color: #30363d;
+  }
+  
+  .pagination .prev a:hover,
+  .pagination .next a:hover {
+    background: linear-gradient(135deg, #58a6ff 0%, #1f6feb 100%);
+    color: #fff;
+    border-color: #58a6ff;
+  }
+  
+  .pagination .prev.disabled a,
+  .pagination .next.disabled a {
+    color: #6e7681;
+    background: #21262d;
+    border-color: #30363d;
+  }
+  
+  .pagination .gap {
+    color: #6e7681;
+  }
+  
+  .pagination-info {
+    color: #8b949e;
+  }
+  
+  .pagination-info strong {
+    color: #c9d1d9;
+  }
+}
+
+/* 고대비 모드 지원 */
+@media (prefers-contrast: high) {
+  .pagination {
+    background: #fff;
+    border: 2px solid #000;
+  }
+  
+  .pagination a {
+    color: #000;
+    background: #fff;
+    border: 1px solid #000;
+  }
+  
+  .pagination a:hover {
+    color: #fff;
+    background: #000;
+  }
+  
+  .pagination .current {
+    color: #fff;
+    background: #000;
+    border: 2px solid #000;
+  }
+}
+
+/* 애니메이션 감소 모드 */
+@media (prefers-reduced-motion: reduce) {
+  .pagination a,
+  .pagination span {
+    transition: none;
+  }
+  
+  .pagination a:hover {
+    transform: none;
+  }
+}
+
+/* 인쇄 스타일 */
+@media print {
+  .pagination-container {
+    display: none;
+  }
+}

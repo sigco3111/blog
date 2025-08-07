@@ -1,217 +1,114 @@
 ---
 layout: default
+custom_css: categories
 ---
 
 <div class="category-page">
     <header class="category-header">
-        <h1>{{ page.category }}</h1>
+        <h1>{{ page.category | default: "알 수 없는 카테고리" }}</h1>
         <p class="category-description">
-            {% assign category_posts = site.categories[page.category] %}
-            {% if page.category == "미분류" %}
-            {% assign category_posts = site.posts | where: "categories", empty %}
+            {% if page.paginator %}
+                {% assign post_count = page.paginator.total_posts %}
+                총 {{ post_count }}개의 포스트
+                {% if page.paginator.total_pages > 1 %}
+                    ({{ page.paginator.page }}/{{ page.paginator.total_pages }} 페이지)
+                {% endif %}
+            {% else %}
+                {% assign category_posts = site.categories[page.category] %}
+                {% if page.category == "미분류" %}
+                    {% assign category_posts = site.posts | where: "categories", empty %}
+                {% elsif page.category == nil or page.category == "" %}
+                    {% assign category_posts = site.posts | limit: 0 %}
+                {% endif %}
+                {% assign post_count = category_posts.size | default: 0 %}
+                총 {{ post_count }}개의 포스트
             {% endif %}
-            총 {{ category_posts.size }}개의 포스트
         </p>
     </header>
 
     <div class="posts-list">
-        {% if page.category == "미분류" %}
-        {% assign category_posts = site.posts | where: "categories", empty %}
+        {% comment %} 페이징된 포스트 또는 전체 카테고리 포스트 사용 {% endcomment %}
+        {% if page.paginator %}
+            {% assign category_posts = page.paginator.posts %}
+            {% assign total_posts = page.paginator.total_posts %}
         {% else %}
-        {% assign category_posts = site.categories[page.category] %}
+            {% comment %} 카테고리 포스트 할당 및 오류 처리 {% endcomment %}
+            {% if page.category == "미분류" %}
+                {% assign category_posts = site.posts | where: "categories", empty %}
+            {% elsif page.category == nil or page.category == "" %}
+                {% assign category_posts = site.posts | limit: 0 %}
+            {% else %}
+                {% assign category_posts = site.categories[page.category] %}
+                {% unless category_posts %}
+                    {% assign category_posts = site.posts | limit: 0 %}
+                {% endunless %}
+            {% endif %}
+            {% assign total_posts = category_posts.size %}
         {% endif %}
 
+        {% comment %} 포스트 목록 표시 또는 빈 상태 처리 {% endcomment %}
         {% if category_posts.size > 0 %}
-        {% assign sorted_posts = category_posts | sort: 'date' | reverse %}
-        {% for post in sorted_posts %}
-        <article class="post-item">
-            <div class="post-meta">
-                <time datetime="{{ post.date | date_to_xmlschema }}">
-                    {{ post.date | date: "%Y년 %m월 %d일" }}
-                </time>
-            </div>
+            {% assign sorted_posts = category_posts | sort: 'date' | reverse %}
+            {% for post in sorted_posts %}
+                <article class="post-item">
+                    <div class="post-meta">
+                        <time datetime="{{ post.date | date_to_xmlschema }}">
+                            {{ post.date | date: "%Y년 %m월 %d일" }}
+                        </time>
+                    </div>
 
-            <h2 class="post-title">
-                <a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
-            </h2>
+                    <h2 class="post-title">
+                        <a href="{{ post.url | relative_url }}">{{ post.title | escape | default: "제목 없음" }}</a>
+                    </h2>
 
-            <div class="post-excerpt">
-                {% if post.excerpt %}
-                {{ post.excerpt | strip_html | truncatewords: 30 }}
-                {% else %}
-                {{ post.content | strip_html | truncatewords: 30 }}
-                {% endif %}
-            </div>
+                    <div class="post-excerpt">
+                        {% if post.excerpt and post.excerpt != "" %}
+                            {{ post.excerpt | strip_html | truncatewords: 30 }}
+                        {% elsif post.content and post.content != "" %}
+                            {{ post.content | strip_html | truncatewords: 30 }}
+                        {% else %}
+                            <em>내용 미리보기가 없습니다.</em>
+                        {% endif %}
+                    </div>
 
-            <div class="post-categories">
-                {% if post.categories.size > 0 %}
-                {% for category in post.categories %}
-                <span class="category-tag">{{ category }}</span>
-                {% endfor %}
-                {% else %}
-                <span class="category-tag">미분류</span>
-                {% endif %}
-            </div>
-        </article>
-        {% endfor %}
+                    <div class="post-categories">
+                        {% if post.categories.size > 0 %}
+                            {% for category in post.categories %}
+                                <span class="category-tag">{{ category }}</span>
+                            {% endfor %}
+                        {% else %}
+                            <span class="category-tag">미분류</span>
+                        {% endif %}
+                    </div>
+                </article>
+            {% endfor %}
+
+            {% comment %} 카테고리 페이징 추가 {% endcomment %}
+            {% if page.paginator %}
+                {% include pagination.html paginator=page.paginator %}
+            {% endif %}
         {% else %}
-        <div class="empty-state">
-            <p>이 카테고리에는 아직 포스트가 없습니다.</p>
-            <a href="{{ '/' | relative_url }}" class="back-link">홈으로 돌아가기</a>
-        </div>
+            {% comment %} 빈 상태 메시지 - 카테고리 유형에 따라 다른 메시지 표시 {% endcomment %}
+            <div class="empty-state">
+                {% if page.category == "미분류" %}
+                    <p>미분류 포스트가 없습니다.</p>
+                    <p class="empty-state-subtitle">모든 포스트가 적절한 카테고리로 분류되어 있습니다.</p>
+                {% elsif page.category == nil or page.category == "" %}
+                    <p>잘못된 카테고리입니다.</p>
+                    <p class="empty-state-subtitle">요청하신 카테고리를 찾을 수 없습니다.</p>
+                {% else %}
+                    <p>{{ page.category }} 카테고리에는 아직 포스트가 없습니다.</p>
+                    <p class="empty-state-subtitle">첫 번째 포스트를 작성해보세요!</p>
+                {% endif %}
+                <div class="empty-state-actions">
+                    <a href="{{ '/' | relative_url }}" class="back-link">홈으로 돌아가기</a>
+                    <a href="{{ '/categories/' | relative_url }}" class="back-link secondary">모든 카테고리 보기</a>
+                </div>
+            </div>
         {% endif %}
     </div>
 
     <div class="category-navigation">
-        <a href="{{ '/categories/' | relative_url }}" class="back-to-categories">← 모든 카테고리 보기</a>
+        <a href="{{ '/categories/' | relative_url }}" class="back-to-categories">모든 카테고리 보기</a>
     </div>
 </div>
-
-<style>
-    .category-page {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 20px;
-    }
-
-    .category-header {
-        text-align: center;
-        margin-bottom: 40px;
-        padding-bottom: 20px;
-        border-bottom: 2px solid #e1e4e8;
-    }
-
-    .category-header h1 {
-        font-size: 2.5em;
-        margin-bottom: 10px;
-        color: #24292e;
-    }
-
-    .category-description {
-        color: #586069;
-        font-size: 1.1em;
-        margin: 0;
-    }
-
-    .posts-list {
-        margin-bottom: 40px;
-    }
-
-    .post-item {
-        border: 1px solid #e1e4e8;
-        border-radius: 8px;
-        padding: 25px;
-        margin-bottom: 20px;
-        background-color: #ffffff;
-        transition: box-shadow 0.2s ease;
-    }
-
-    .post-item:hover {
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-
-    .post-meta {
-        margin-bottom: 10px;
-    }
-
-    .post-meta time {
-        color: #586069;
-        font-size: 0.9em;
-    }
-
-    .post-title {
-        margin: 0 0 15px 0;
-        font-size: 1.5em;
-        line-height: 1.3;
-    }
-
-    .post-title a {
-        text-decoration: none;
-        color: #0366d6;
-    }
-
-    .post-title a:hover {
-        text-decoration: underline;
-    }
-
-    .post-excerpt {
-        color: #586069;
-        line-height: 1.6;
-        margin-bottom: 15px;
-    }
-
-    .post-categories {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-    }
-
-    .category-tag {
-        background-color: #f1f8ff;
-        color: #0366d6;
-        padding: 4px 12px;
-        border-radius: 16px;
-        font-size: 0.85em;
-        border: 1px solid #c8e1ff;
-    }
-
-    .empty-state {
-        text-align: center;
-        padding: 60px 20px;
-        color: #586069;
-    }
-
-    .empty-state p {
-        font-size: 1.2em;
-        margin-bottom: 20px;
-    }
-
-    .back-link {
-        color: #0366d6;
-        text-decoration: none;
-        font-weight: 500;
-    }
-
-    .back-link:hover {
-        text-decoration: underline;
-    }
-
-    .category-navigation {
-        text-align: center;
-        padding-top: 20px;
-        border-top: 1px solid #e1e4e8;
-    }
-
-    .back-to-categories {
-        color: #0366d6;
-        text-decoration: none;
-        font-weight: 500;
-        padding: 10px 20px;
-        border: 1px solid #0366d6;
-        border-radius: 6px;
-        transition: all 0.2s ease;
-    }
-
-    .back-to-categories:hover {
-        background-color: #0366d6;
-        color: white;
-    }
-
-    @media (max-width: 768px) {
-        .category-page {
-            padding: 15px;
-        }
-
-        .category-header h1 {
-            font-size: 2em;
-        }
-
-        .post-item {
-            padding: 20px;
-        }
-
-        .post-title {
-            font-size: 1.3em;
-        }
-    }
-</style>

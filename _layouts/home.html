@@ -28,10 +28,11 @@ layout: default
 
   {{ content }}
 
-  {%- if site.posts.size > 0 -%}
+  {%- assign posts_to_show = paginator.posts | default: site.posts -%}
+  {%- if posts_to_show.size > 0 -%}
     <h2 class="post-list-heading">{{ page.list_title | default: "Posts" }}</h2>
     <ul class="post-list" id="blog-post-list">
-      {%- for post in site.posts -%}
+      {%- for post in posts_to_show -%}
       <li class="post-item" data-title="{{ post.title | downcase }}" data-content="{{ post.content | strip_html | downcase }}" data-categories="{{ post.categories | join: ' ' | downcase }}" data-tags="{{ post.tags | join: ' ' | downcase }}" data-date="{{ post.date | date: '%Y-%m-%d' }}">
         {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
         <span class="post-meta">{{ post.date | date: date_format }}</span>
@@ -60,6 +61,11 @@ layout: default
       </li>
       {%- endfor -%}
     </ul>
+
+    {%- comment -%} 페이징 추가 {%- endcomment -%}
+    {%- if paginator -%}
+      {% include pagination.html paginator=paginator %}
+    {%- endif -%}
 
     <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | relative_url }}">via RSS</a></p>
   {%- endif -%}
