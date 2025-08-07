@@ -49,6 +49,36 @@
    ```
    rm -rf _site .jekyll-cache
    ```
+
+### GitHub Pages 배포
+
+이 블로그는 GitHub Actions를 사용하여 자동으로 배포됩니다.
+
+1. **GitHub 저장소 설정**:
+   - GitHub 저장소의 Settings > Pages로 이동
+   - Source를 "GitHub Actions"로 설정
+
+2. **자동 배포**:
+   - `main` 또는 `master` 브랜치에 푸시하면 자동으로 배포됩니다
+   - `.github/workflows/jekyll.yml` 파일이 배포를 담당합니다
+
+3. **카테고리 페이지 문제 해결**:
+   - GitHub Pages는 사용자 정의 플러그인을 지원하지 않습니다
+   - 모든 카테고리 페이지는 `category/` 폴더에 수동으로 생성되어 있습니다
+   - 새 카테고리 추가 시 해당 카테고리의 `.md` 파일을 생성해야 합니다
+
+4. **새 카테고리 추가 방법**:
+   ```bash
+   # 예: "새카테고리" 추가
+   cat > category/새카테고리.md << EOF
+   ---
+   layout: category
+   title: 새카테고리
+   category: 새카테고리
+   permalink: /category/새카테고리/
+   ---
+   EOF
+   ```
    
 ## 디렉토리 구조
 
