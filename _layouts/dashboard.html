@@ -1,0 +1,533 @@
+---
+layout: default
+---
+
+<div class="dashboard-container">
+  <header class="dashboard-header">
+    <h1 class="page-heading">{{ page.title | escape }}</h1>
+    <p class="dashboard-description">블로그 통계와 데이터를 한눈에 확인하세요</p>
+  </header>
+
+  <main class="dashboard-content">
+    <!-- 기본 통계 섹션 -->
+    <section class="dashboard-section stats-section">
+      <h2 class="section-title">기본 통계</h2>
+      <div class="stats-grid">
+        {% comment %} 안전한 통계 계산 with 오류 처리 {% endcomment %}
+        {% assign total_posts = site.posts | size | default: 0 %}
+        {% assign total_categories = site.categories | size | default: 0 %}
+        {% assign total_words = 0 %}
+        {% assign valid_posts_count = 0 %}
+        
+        {% comment %} 단어 수 계산 with 오류 처리 {% endcomment %}
+        {% if site.posts and site.posts.size > 0 %}
+          {% for post in site.posts %}
+            {% if post.content and post.content != "" %}
+              {% assign words = post.content | number_of_words | default: 0 %}
+              {% assign total_words = total_words | plus: words %}
+              {% assign valid_posts_count = valid_posts_count | plus: 1 %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+        
+        {% comment %} 평균 계산 with 0으로 나누기 방지 {% endcomment %}
+        {% if valid_posts_count > 0 %}
+          {% assign avg_words = total_words | divided_by: valid_posts_count %}
+        {% else %}
+          {% assign avg_words = 0 %}
+        {% endif %}
+
+        <div class="stat-card">
+          <div class="stat-number">{{ total_posts | default: 0 }}</div>
+          <div class="stat-label">전체 포스트</div>
+          {% if total_posts == 0 %}
+            <div class="stat-note">첫 포스트를 작성해보세요!</div>
+          {% endif %}
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-number">{{ total_categories | default: 0 }}</div>
+          <div class="stat-label">카테고리 수</div>
+          {% if total_categories == 0 %}
+            <div class="stat-note">카테고리를 추가해보세요!</div>
+          {% endif %}
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-number">{{ total_words | number_with_delimiter | default: "0" }}</div>
+          <div class="stat-label">총 단어 수</div>
+          {% if total_words == 0 and total_posts > 0 %}
+            <div class="stat-note">내용을 추가해보세요!</div>
+          {% endif %}
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-number">{{ avg_words | default: 0 }}</div>
+          <div class="stat-label">평균 포스트 길이</div>
+          {% if avg_words == 0 and total_posts > 0 %}
+            <div class="stat-note">더 자세한 내용을 작성해보세요!</div>
+          {% endif %}
+        </div>
+      </div>
+      
+      {% comment %} 전체 데이터가 없는 경우 안내 메시지 {% endcomment %}
+      {% if total_posts == 0 %}
+        <div class="dashboard-empty-state">
+          <div class="empty-state-icon">📝</div>
+          <h3>아직 포스트가 없습니다</h3>
+          <p>첫 번째 포스트를 작성하여 블로그를 시작해보세요!</p>
+          <div class="empty-state-actions">
+            <a href="{{ '/' | relative_url }}" class="dashboard-action-btn">홈으로 가기</a>
+          </div>
+        </div>
+      {% endif %}
+    </section>
+
+    <!-- 카테고리 분포 차트 섹션 -->
+    <section class="dashboard-section chart-section">
+      <h2 class="section-title">카테고리별 포스트 분포</h2>
+      <div class="chart-container">
+        {% comment %} 카테고리 데이터 검증 및 오류 처리 {% endcomment %}
+        {% if site.categories and site.categories.size > 0 %}
+          {% assign max_posts = 0 %}
+          {% assign valid_categories = 0 %}
+          
+          {% comment %} 최대 포스트 수 계산 with 오류 처리 {% endcomment %}
+          {% for category in site.categories %}
+            {% if category[0] and category[1] %}
+              {% assign category_size = category[1] | size | default: 0 %}
+              {% if category_size > max_posts %}
+                {% assign max_posts = category_size %}
+              {% endif %}
+              {% assign valid_categories = valid_categories | plus: 1 %}
+            {% endif %}
+          {% endfor %}
+
+          {% if valid_categories > 0 and max_posts > 0 %}
+            <div class="category-chart">
+              {% for category in site.categories %}
+                {% assign category_name = category[0] | default: "알 수 없는 카테고리" %}
+                {% assign category_posts = category[1] %}
+                {% assign post_count = category_posts | size | default: 0 %}
+                
+                {% comment %} 0으로 나누기 방지 {% endcomment %}
+                {% if max_posts > 0 %}
+                  {% assign percentage = post_count | times: 100.0 | divided_by: max_posts %}
+                {% else %}
+                  {% assign percentage = 0 %}
+                {% endif %}
+                
+                {% if category_name != "" and post_count > 0 %}
+                  <div class="chart-bar">
+                    <div class="bar-label">{{ category_name }}</div>
+                    <div class="bar-container">
+                      <div class="bar-fill" style="width: {{ percentage }}%"></div>
+                      <span class="bar-value">{{ post_count }}</span>
+                    </div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+            
+            {% comment %} 차트 요약 정보 {% endcomment %}
+            <div class="chart-summary">
+              <p>총 {{ valid_categories }}개 카테고리, 최대 {{ max_posts }}개 포스트</p>
+            </div>
+          {% else %}
+            <div class="empty-state">
+              <div class="empty-state-icon">📊</div>
+              <p>카테고리 데이터를 불러올 수 없습니다.</p>
+              <p class="empty-state-subtitle">포스트에 카테고리를 추가해보세요.</p>
+            </div>
+          {% endif %}
+        {% else %}
+          <div class="empty-state">
+            <div class="empty-state-icon">📂</div>
+            <p>아직 카테고리가 없습니다.</p>
+            <p class="empty-state-subtitle">포스트를 작성하고 카테고리를 추가해보세요.</p>
+            <div class="empty-state-actions">
+              <a href="{{ '/categories/' | relative_url }}" class="dashboard-action-btn secondary">카테고리 페이지 보기</a>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </section>
+
+    <!-- 최근 포스트 섹션 -->
+    <section class="dashboard-section recent-posts-section">
+      <h2 class="section-title">최근 포스트 (최근 5개)</h2>
+      <div class="recent-posts-container">
+        {% comment %} 포스트 데이터 검증 및 오류 처리 {% endcomment %}
+        {% if site.posts and site.posts.size > 0 %}
+          {% comment %} 최근 5개 포스트만 선택 {% endcomment %}
+          {% assign recent_posts = site.posts | limit: 5 %}
+          {% assign displayed_posts = 0 %}
+          
+          <div class="recent-posts-list">
+            {% comment %} 최근 5개 포스트만 반복 처리 {% endcomment %}
+            {% for post in recent_posts limit: 5 %}
+              {% if post.title and post.title != "" and post.url and post.url != "" %}
+                <div class="recent-post-item">
+                  <div class="post-meta">
+                    {% if post.date %}
+                      <span class="post-date">{{ post.date | date: "%Y.%m.%d" }}</span>
+                    {% else %}
+                      <span class="post-date">날짜 없음</span>
+                    {% endif %}
+                    
+                    {% if post.categories and post.categories.size > 0 %}
+                      <span class="post-category">{{ post.categories | first | default: "미분류" }}</span>
+                    {% else %}
+                      <span class="post-category">미분류</span>
+                    {% endif %}
+                  </div>
+                  <h3 class="post-title">
+                    <a href="{{ post.url | relative_url }}">{{ post.title | escape | default: "제목 없음" }}</a>
+                  </h3>
+                  {% if post.excerpt and post.excerpt != "" %}
+                    <p class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 20 }}</p>
+                  {% elsif post.content and post.content != "" %}
+                    <p class="post-excerpt">{{ post.content | strip_html | truncatewords: 20 }}</p>
+                  {% else %}
+                    <p class="post-excerpt"><em>내용 미리보기가 없습니다.</em></p>
+                  {% endif %}
+                </div>
+                {% assign displayed_posts = displayed_posts | plus: 1 %}
+              {% endif %}
+            {% endfor %}
+          </div>
+          
+          {% comment %} 표시된 포스트가 없는 경우 {% endcomment %}
+          {% if displayed_posts == 0 %}
+            <div class="empty-state">
+              <div class="empty-state-icon">⚠️</div>
+              <p>유효한 포스트 데이터를 찾을 수 없습니다.</p>
+              <p class="empty-state-subtitle">포스트 파일을 확인해주세요.</p>
+            </div>
+          {% else %}
+            {% comment %} 더 많은 포스트가 있는 경우 안내 {% endcomment %}
+            <div class="recent-posts-footer">
+              <p class="posts-note">
+                {% if site.posts.size > 5 %}
+                  최근 5개 포스트를 표시합니다. (전체 {{ site.posts.size }}개 중)
+                  <a href="{{ '/' | relative_url }}" class="view-all-link">전체 포스트 보기</a>
+                {% else %}
+                  모든 포스트를 표시하고 있습니다. (총 {{ site.posts.size }}개)
+                  <a href="{{ '/' | relative_url }}" class="view-all-link">홈페이지 보기</a>
+                {% endif %}
+              </p>
+            </div>
+          {% endif %}
+        {% else %}
+          <div class="empty-state">
+            <div class="empty-state-icon">📝</div>
+            <p>아직 작성된 포스트가 없습니다.</p>
+            <p class="empty-state-subtitle">첫 번째 포스트를 작성해보세요!</p>
+            <div class="empty-state-actions">
+              <a href="{{ '/' | relative_url }}" class="dashboard-action-btn">홈으로 가기</a>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </section>
+
+    <!-- 월별 통계 섹션 -->
+    <section class="dashboard-section monthly-stats-section">
+      <h2 class="section-title">월별 포스트 통계</h2>
+      <div class="monthly-stats-container">
+        {% comment %} 포스트 데이터 검증 및 오류 처리 {% endcomment %}
+        {% if site.posts and site.posts.size > 0 %}
+          {% comment %} 월별 포스트 수 계산 with 오류 처리 {% endcomment %}
+          {% assign months_data = '' | split: '' %}
+          {% assign valid_posts_with_dates = 0 %}
+          
+          {% for post in site.posts %}
+            {% if post.date %}
+              {% assign post_month = post.date | date: "%Y-%m" %}
+              {% if post_month and post_month != "" %}
+                {% assign months_data = months_data | push: post_month %}
+                {% assign valid_posts_with_dates = valid_posts_with_dates | plus: 1 %}
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+          
+          {% if valid_posts_with_dates > 0 %}
+            {% assign unique_months = months_data | uniq | sort | reverse %}
+            {% assign max_count = 0 %}
+            
+            {% comment %} 최대 포스트 수 찾기 with 오류 처리 {% endcomment %}
+            {% for month in unique_months %}
+              {% assign month_count = 0 %}
+              {% for post in site.posts %}
+                {% if post.date %}
+                  {% assign post_month = post.date | date: "%Y-%m" %}
+                  {% if post_month == month %}
+                    {% assign month_count = month_count | plus: 1 %}
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+              {% if month_count > max_count %}
+                {% assign max_count = month_count %}
+              {% endif %}
+            {% endfor %}
+            
+            {% if unique_months.size > 0 and max_count > 0 %}
+              <div class="monthly-stats-chart">
+                {% for month in unique_months limit: 12 %}
+                  {% assign month_count = 0 %}
+                  {% assign month_display = '' %}
+                  
+                  {% for post in site.posts %}
+                    {% if post.date %}
+                      {% assign post_month = post.date | date: "%Y-%m" %}
+                      {% if post_month == month %}
+                        {% assign month_count = month_count | plus: 1 %}
+                        {% if month_display == '' %}
+                          {% assign month_display = post.date | date: "%Y년 %m월" %}
+                        {% endif %}
+                      {% endif %}
+                    {% endif %}
+                  {% endfor %}
+                  
+                  {% comment %} 0으로 나누기 방지 {% endcomment %}
+                  {% if max_count > 0 %}
+                    {% assign percentage = month_count | times: 100.0 | divided_by: max_count %}
+                  {% else %}
+                    {% assign percentage = 0 %}
+                  {% endif %}
+                  
+                  {% if month_display != "" and month_count > 0 %}
+                    <div class="monthly-stat-bar">
+                      <div class="month-label">{{ month_display }}</div>
+                      <div class="month-bar-container">
+                        <div class="month-bar-fill" style="width: {{ percentage }}%"></div>
+                        <span class="month-bar-value">{{ month_count }}개</span>
+                      </div>
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              </div>
+              
+              <div class="monthly-stats-summary">
+                <div class="stats-summary-item">
+                  <span class="summary-label">총 활동 기간:</span>
+                  <span class="summary-value">{{ unique_months.size | default: 0 }}개월</span>
+                </div>
+                <div class="stats-summary-item">
+                  <span class="summary-label">월평균 포스트:</span>
+                  {% if unique_months.size > 0 %}
+                    {% assign avg_monthly = valid_posts_with_dates | divided_by: unique_months.size %}
+                    <span class="summary-value">{{ avg_monthly | default: 0 }}개</span>
+                  {% else %}
+                    <span class="summary-value">0개</span>
+                  {% endif %}
+                </div>
+                <div class="stats-summary-item">
+                  <span class="summary-label">최다 작성 월:</span>
+                  {% assign max_month_display = '' %}
+                  {% for month in unique_months %}
+                    {% assign month_count = 0 %}
+                    {% for post in site.posts %}
+                      {% if post.date %}
+                        {% assign post_month = post.date | date: "%Y-%m" %}
+                        {% if post_month == month %}
+                          {% assign month_count = month_count | plus: 1 %}
+                          {% if month_count == max_count and max_month_display == '' %}
+                            {% assign max_month_display = post.date | date: "%Y년 %m월" %}
+                          {% endif %}
+                        {% endif %}
+                      {% endif %}
+                    {% endfor %}
+                  {% endfor %}
+                  <span class="summary-value">
+                    {% if max_month_display != "" %}
+                      {{ max_month_display }} ({{ max_count }}개)
+                    {% else %}
+                      데이터 없음
+                    {% endif %}
+                  </span>
+                </div>
+              </div>
+            {% else %}
+              <div class="empty-state">
+                <div class="empty-state-icon">📅</div>
+                <p>월별 통계를 생성할 수 없습니다.</p>
+                <p class="empty-state-subtitle">유효한 날짜 데이터가 부족합니다.</p>
+              </div>
+            {% endif %}
+          {% else %}
+            <div class="empty-state">
+              <div class="empty-state-icon">⚠️</div>
+              <p>날짜 정보가 있는 포스트가 없습니다.</p>
+              <p class="empty-state-subtitle">포스트에 올바른 날짜를 설정해주세요.</p>
+            </div>
+          {% endif %}
+        {% else %}
+          <div class="empty-state">
+            <div class="empty-state-icon">📊</div>
+            <p>아직 작성된 포스트가 없습니다.</p>
+            <p class="empty-state-subtitle">포스트를 작성하면 월별 통계를 확인할 수 있습니다.</p>
+            <div class="empty-state-actions">
+              <a href="{{ '/' | relative_url }}" class="dashboard-action-btn">홈으로 가기</a>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </section>
+
+    <!-- 인기 카테고리 섹션 -->
+    <section class="dashboard-section popular-categories-section">
+      <h2 class="section-title">인기 카테고리 TOP 5</h2>
+      <div class="popular-categories-container">
+        {% comment %} 카테고리 데이터 검증 및 오류 처리 {% endcomment %}
+        {% if site.categories and site.categories.size > 0 %}
+          {% comment %} 카테고리를 포스트 수 기준으로 정렬 with 오류 처리 {% endcomment %}
+          {% assign sorted_categories = site.categories | sort %}
+          {% assign category_counts = '' | split: '' %}
+          {% assign valid_categories_count = 0 %}
+          
+          {% comment %} 카테고리별 포스트 수와 함께 배열 생성 with 검증 {% endcomment %}
+          {% for category in sorted_categories %}
+            {% assign category_name = category[0] %}
+            {% assign category_posts = category[1] %}
+            
+            {% if category_name and category_name != "" and category_posts %}
+              {% assign post_count = category_posts | size | default: 0 %}
+              {% if post_count > 0 %}
+                {% assign category_data = category_name | append: '|' | append: post_count %}
+                {% assign category_counts = category_counts | push: category_data %}
+                {% assign valid_categories_count = valid_categories_count | plus: 1 %}
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+          
+          {% if valid_categories_count > 0 %}
+            {% comment %} 포스트 수 기준으로 내림차순 정렬을 위한 임시 배열 {% endcomment %}
+            {% assign top_categories = '' | split: '' %}
+            {% assign top_categories_data = '' | split: '' %}
+            
+            {% for i in (1..5) %}
+              {% assign max_count = 0 %}
+              {% assign max_category = '' %}
+              {% assign max_index = -1 %}
+              
+              {% for j in (0..category_counts.size) %}
+                {% assign current_data = category_counts[j] %}
+                {% if current_data and current_data != "" %}
+                  {% assign data_parts = current_data | split: '|' %}
+                  {% if data_parts.size >= 2 %}
+                    {% assign current_count = data_parts[1] | plus: 0 %}
+                    {% if current_count > max_count %}
+                      {% assign max_count = current_count %}
+                      {% assign max_category = data_parts[0] %}
+                      {% assign max_index = j %}
+                    {% endif %}
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+              
+              {% if max_category != '' and max_count > 0 %}
+                {% assign top_categories = top_categories | push: max_category %}
+                {% assign category_info = max_category | append: '|' | append: max_count %}
+                {% assign top_categories_data = top_categories_data | push: category_info %}
+                
+                {% comment %} 사용된 카테고리를 배열에서 제거 {% endcomment %}
+                {% assign temp_array = '' | split: '' %}
+                {% for k in (0..category_counts.size) %}
+                  {% unless k == max_index %}
+                    {% if category_counts[k] and category_counts[k] != "" %}
+                      {% assign temp_array = temp_array | push: category_counts[k] %}
+                    {% endif %}
+                  {% endunless %}
+                {% endfor %}
+                {% assign category_counts = temp_array %}
+              {% endif %}
+            {% endfor %}
+            
+            {% if top_categories.size > 0 %}
+              <div class="popular-categories-list">
+                {% for category_data in top_categories_data %}
+                  {% assign data_parts = category_data | split: '|' %}
+                  {% assign category_name = data_parts[0] | default: "알 수 없는 카테고리" %}
+                  {% assign post_count = data_parts[1] | plus: 0 %}
+                  {% assign rank = forloop.index %}
+                  
+                  {% if category_name != "" and post_count > 0 %}
+                    <div class="popular-category-item">
+                      <div class="category-rank">{{ rank }}</div>
+                      <div class="category-info">
+                        <h3 class="category-name">
+                          <a href="{{ '/category/' | append: category_name | slugify | append: '/' | relative_url }}">{{ category_name }}</a>
+                        </h3>
+                        <div class="category-stats">
+                          <span class="post-count">{{ post_count }}개 포스트</span>
+                          {% if site.posts.size > 0 %}
+                            {% assign percentage = post_count | times: 100.0 | divided_by: site.posts.size %}
+                            <span class="category-percentage">({{ percentage | round: 1 }}%)</span>
+                          {% else %}
+                            <span class="category-percentage">(0%)</span>
+                          {% endif %}
+                        </div>
+                      </div>
+                      <div class="category-progress">
+                        {% if site.posts.size > 0 %}
+                          {% assign progress_percentage = post_count | times: 100.0 | divided_by: site.posts.size %}
+                          <div class="progress-bar">
+                            <div class="progress-fill" style="width: {{ progress_percentage }}%"></div>
+                          </div>
+                        {% else %}
+                          <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                          </div>
+                        {% endif %}
+                      </div>
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              </div>
+              
+              {% if valid_categories_count > 5 %}
+                <div class="popular-categories-footer">
+                  <p class="categories-note">
+                    총 {{ valid_categories_count }}개 카테고리 중 상위 {{ top_categories.size }}개를 표시합니다.
+                    <a href="{{ '/categories/' | relative_url }}" class="view-all-link">전체 카테고리 보기</a>
+                  </p>
+                </div>
+              {% elsif valid_categories_count <= 5 %}
+                <div class="popular-categories-footer">
+                  <p class="categories-note">
+                    모든 카테고리를 표시하고 있습니다.
+                    <a href="{{ '/categories/' | relative_url }}" class="view-all-link">카테고리 페이지 보기</a>
+                  </p>
+                </div>
+              {% endif %}
+            {% else %}
+              <div class="empty-state">
+                <div class="empty-state-icon">⚠️</div>
+                <p>인기 카테고리 데이터를 처리할 수 없습니다.</p>
+                <p class="empty-state-subtitle">카테고리 정보를 확인해주세요.</p>
+              </div>
+            {% endif %}
+          {% else %}
+            <div class="empty-state">
+              <div class="empty-state-icon">📊</div>
+              <p>유효한 카테고리 데이터가 없습니다.</p>
+              <p class="empty-state-subtitle">포스트에 카테고리를 추가해보세요.</p>
+            </div>
+          {% endif %}
+        {% else %}
+          <div class="empty-state">
+            <div class="empty-state-icon">📂</div>
+            <p>아직 카테고리가 없습니다.</p>
+            <p class="empty-state-subtitle">포스트를 작성하고 카테고리를 추가해보세요.</p>
+            <div class="empty-state-actions">
+              <a href="{{ '/categories/' | relative_url }}" class="dashboard-action-btn secondary">카테고리 페이지 보기</a>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </section>
+  </main>
+</div>
+
+{{ content }}

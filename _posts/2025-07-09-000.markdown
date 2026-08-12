@@ -1,0 +1,48 @@
+---
+layout: post
+title:  "Apple의 DiffuCoder"
+date:   2025-07-09 08:00:00 +0900
+categories: 오픈소스
+---
+
+# Apple의 DiffuCoder 확산 모델을 사용한 코드 생성의 새로운 시도
+
+출처 : https://github.com/apple/ml-diffucoder
+
+**DiffuCoder 요약**
+
+`https://github.com/apple/ml-diffucoder`는 Apple이 개발한 **DiffuCoder** 프로젝트의 소스 코드 저장소로, 코드 생성을 위한 **마스크된 확산 모델(Masked Diffusion Model)**을 개선한 연구를 담고 있습니다. 이 프로젝트는 기존의 순차적(왼쪽에서 오른쪽) 코드 생성 방식(예: GPT 같은 오토리그레시브 모델)과 달리, **확산 모델**을 사용해 코드 전체를 비순차적으로 생성하고 수정하는 새로운 접근 방식을 제안합니다.
+
+### 주요 내용
+1. **DiffuCoder란?**
+   - 코드 생성에 특화된 대규모 언어 모델(LLM)로, 확산 모델을 기반으로 작동.
+   - 코드의 전체 구조를 고려하며 여러 부분을 동시에 수정해 더 빠르고 정확한 코드 생성 가능.
+   - Alibaba의 Qwen2.5-7B 모델을 기반으로 하여 확산 디코더와 Coupled-GRPO라는 새로운 학습 기법을 추가로 적용.
+
+2. **Coupled-GRPO**
+   - **Coupled-GRPO**는 DiffuCoder의 성능을 높이는 후처리 학습 기법.
+   - 두 개의 상호보완적인 마스크를 사용해 모든 토큰의 로그 확률을 계산, 더 정확하고 효율적인 코드 생성을 지원.
+   - 결과적으로 코드 품질이 향상되고 생성 속도가 빨라짐. (EvalPlus 벤치마크에서 4.4% 성능 향상)
+
+3. **특징**
+   - **비순차적 생성**: 코드의 특정 부분을 먼저 생성하거나 수정 가능.
+   - **유연한 생성 방식**: 온도(temperature) 설정으로 순차적/비순차적 생성 조절 가능 (높은 온도에서 더 자유로운 생성).
+   - **다양한 언어 지원**: Python, JavaScript 등 여러 프로그래밍 언어에 적용 가능.
+   - **오픈소스**: Hugging Face에서 Base, Instruct, cpGRPO 모델을 제공하며, 커뮤니티가 테스트 및 개선에 참여 가능.
+
+4. **현재 상태**
+   - **MLX 지원**: Apple Silicon에서 MLX 지원이 진행 중 (2025년 6월 기준).
+   - **Hugging Face 배포**: DiffuCoder-7B 모델(Base, Instruct, cpGRPO)이 Hugging Face에 공개됨.
+   - **연구 단계**: 상용화보다는 연구 중심, 고성능 GPU 필요, 추론 속도는 기존 오토리그레시브 모델보다 느릴 수 있음.
+
+5. **활용 방법**
+   - 저장소에서 소스 코드를 클론하고, Python 3.11 환경에서 의존성 설치 후 실행.
+   - 예제 코드는 Hugging Face에서 제공하는 모델과 함께 Python, JavaScript 등으로 코드 생성 가능.
+   - E2B 코드 샌드박스 및 GRPO 학습 데이터(AceCode-89K 기반) 사용 가능.
+
+### 의의
+DiffuCoder는 코드 생성에서 기존 방식의 한계를 극복하고, 개발자의 사고 과정(전체 구조를 보고 수정)과 유사한 방식으로 AI가 코드를 생성하도록 돕습니다. 이는 더 스마트하고 협업적인 코딩 도구로 발전할 가능성을 보여주며, Apple의 생성형 AI 연구의 일환으로 주목받고 있습니다.
+
+**참고**: 자세한 설치 및 실행 방법은 GitHub 저장소의 README와 Hugging Face 페이지에서 확인 가능.[](https://github.com/apple/ml-diffucoder)[](https://medium.com/%40jaredcassoutt/apples-diffucoder-a-new-spin-on-code-generation-with-diffusion-models-5bf032518817)[](https://9to5mac.com/2025/07/04/apple-just-released-a-weirdly-interesting-coding-language-model/)
+
+---

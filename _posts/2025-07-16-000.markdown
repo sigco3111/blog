@@ -1,0 +1,91 @@
+---
+layout: post
+title:  "EXAONE 4.0"
+date:   2025-07-16 08:00:00 +0900
+categories: 오픈소스
+---
+
+# LG AI 오픈소스 모델
+
+# EXAONE 4.0 모델 특징
+
+**EXAONE 4.0**은 LG AI Research에서 개발한 오픈소스 대형 언어 모델(LLM)로, **EXpert AI for EveryONE**의 약자로 모든 이를 위한 전문 AI를 목표로 합니다. [Hugging Face 컬렉션](https://huggingface.co/collections/LGAI-EXAONE/exaone-40-686b2e0069800c835ed48375)에서 2025년 7월 15일 공개되었으며, 영어, 한국어, 스페인어를 지원하는 다국어 모델입니다.
+
+## 주요 특징
+
+### 1. 모델 구성
+- **두 가지 크기**:
+  - **32B(320억 파라미터)**: 복잡한 추론 및 대규모 데이터 처리에 최적.
+  - **1.2B(12억 파라미터)**: 온디바이스용 경량 모델, 자원 제약 환경에 적합.
+- **긴 컨텍스트**: 최대 **131,072 토큰** 지원, 긴 문서 및 다중 턴 대화 가능.
+
+### 2. 하이브리드 추론
+- **비추론 모드**: 빠른 응답, 일반 대화 및 간단한 작업에 적합.
+- **추론 모드**: `\n` 태그로 사고 과정 명시, 수학/코딩/문제 해결에 특화.
+- **하이브리드 어텐션**: 로컬(슬라이딩 윈도우) 및 글로벌 어텐션(3:1) 결합.
+
+### 3. 다국어 지원
+- 영어, 한국어, 스페인어 처리. 예: "Explain how wonderful you are" (영어), "너가 얼마나 대단한지 설명해 봐" (한국어).
+- 다국어 대화, 문서 요약 가능.
+
+### 4. 에이전트 기능
+- API 호출, 데이터 분석, 코드 생성 등 수행.
+- 활용: 코딩, 데이터 시각화, 워크플로우 자동화.
+
+### 5. 성능
+- **벤치마크**:
+  - **MATH-500**: 95.7% (EXAONE Deep 32B).
+  - **Live Code Bench**: 59.5% 성공률, OpenAI o1-mini 및 DeepSeek R1 상회.
+  - **AIME**: 고급 수학 문제 풀이 강력.
+- 긴 컨텍스트(32K~131K 토큰)로 복잡한 작업 우수.
+
+### 6. 기술적 특징
+- **아키텍처**: 그룹 쿼리 어텐션(40 Q-heads, 8 KV-heads).
+- **사전 학습**: 8T 토큰으로 일반화 성능 강화.
+- **최적화**: AWQ, GGUF 양자화로 메모리 효율성 향상.
+
+## 접근 방법
+- **Hugging Face**: [EXAONE-4.0-32B](https://huggingface.co/LGAI-EXAONE/EXAONE-4.0-32B), [EXAONE-4.0-1.2B](https://huggingface.co/LGAI-EXAONE/EXAONE-4.0-1.2B).
+- **설치**:
+  ```bash
+  pip install git+https://github.com/lgai-exaone/transformers@add-exaone4
+  ```
+- **예제 코드**:
+  ```python
+  from transformers import AutoModelForCausalLM, AutoTokenizer
+  model_name = "LGAI-EXAONE/EXAONE-4.0-32B"
+  model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype="bfloat16", device_map="auto")
+  tokenizer = AutoTokenizer.from_pretrained(model_name)
+  prompt = "너가 얼마나 대단한지 설명해 봐"
+  messages = [{"role": "user", "content": prompt}]
+  input_ids = tokenizer.apply_chat_template(messages, tokenize=True, add_generation_prompt=True, return_tensors="pt")
+  output = model.generate(input_ids.to(model.device), max_new_tokens=128, do_sample=False)
+  print(tokenizer.decode(output[0]))
+  ```
+- **Ollama**: GGUF 형식으로 실행 가능.
+- **로컬 실행**: llama.cpp, TensorRT-LLM 지원(vLLM/SGLang 미지원).
+
+## 활용 사례
+- **코딩**: 알고리즘, 디버깅, GitHub 이슈 해결.
+- **수학**: AIME, MATH-500 문제 풀이.
+- **데이터 분석**: 데이터셋 처리, 시각화.
+- **다국어**: 영어/한국어/스페인어 챗봇, 문서 요약.
+
+## 장점
+- 오픈소스: 연구용 무료, 상업용은 [contact_us@lgresearch.ai](mailto:contact_us@lgresearch.ai) 문의.
+- 동급 모델(OpenAI o1-mini) 대비 경쟁력.
+- 온디바이스(1.2B) 및 고성능(32B) 지원.
+- 131K 토큰으로 장문 처리 강력.
+
+## 한계
+- 텍스트 중심, 이미지/오디오 미지원.
+- vLLM, SGLang 미지원(2025년 7월 기준).
+- 32B 모델은 고성능 GPU 필요.
+- 학습 데이터 기반 잠재적 편향 가능.
+
+## 시작하기
+- **다운로드**: [Hugging Face EXAONE 4.0](https://huggingface.co/collections/LGAI-EXAONE/exaone-40-686b2e0069800c835ed48375).
+- **문서**: [LG AI Research GitHub](https://github.com/LG-AI-EXAONE/EXAONE-4.0), [arXiv](https://arxiv.org).
+- **문의**: [contact_us@lgresearch.ai](mailto:contact_us@lgresearch.ai).
+
+**EXAONE 4.0**은 코딩, 수학, 다국어 작업에서 강력한 오픈소스 LLM으로, AI 발전에 기여합니다. [Hugging Face](https://huggingface.co/LGAI-EXAONE)에서 확인하세요!

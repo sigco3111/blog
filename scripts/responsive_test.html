@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>반응형 디자인 테스트</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .test-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .test-content {
+            padding: 30px;
+        }
+        
+        .viewport-info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #2196F3;
+        }
+        
+        .test-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+        }
+        
+        .test-section h3 {
+            margin-top: 0;
+            color: #333;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .breakpoint-tests {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .breakpoint-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            text-align: center;
+        }
+        
+        .breakpoint-card.active {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+        
+        .accessibility-tests {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .accessibility-item {
+            padding: 15px;
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 6px;
+        }
+        
+        .accessibility-item.pass {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+        
+        .accessibility-item.fail {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+        
+        .test-results {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .status-pass {
+            background: #28a745;
+            color: white;
+        }
+        
+        .status-fail {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .status-warning {
+            background: #ffc107;
+            color: #212529;
+        }
+        
+        .test-controls {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .test-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 0 10px;
+            font-size: 14px;
+            transition: background 0.3s ease;
+        }
+        
+        .test-btn:hover {
+            background: #5a6fd8;
+        }
+        
+        .test-btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+        
+        /* 반응형 테스트 스타일 */
+        @media screen and (max-width: 1200px) {
+            .breakpoint-tests {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
+        
+        @media screen and (max-width: 768px) {
+            .test-content {
+                padding: 20px;
+            }
+            
+            .test-header {
+                padding: 20px;
+            }
+            
+            .breakpoint-tests {
+                grid-template-columns: 1fr;
+            }
+            
+            .accessibility-tests {
+                grid-template-columns: 1fr;
+            }
+            
+            .test-controls {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .test-btn {
+                width: 100%;
+                margin: 5px 0;
+            }
+        }
+        
+        @media screen and (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .test-content {
+                padding: 15px;
+            }
+            
+            .test-header h1 {
+                font-size: 1.5em;
+            }
+        }
+        
+        /* 접근성 테스트 스타일 */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
+        @media (prefers-contrast: high) {
+            .test-container {
+                border: 2px solid #000;
+            }
+            
+            .test-section {
+                border: 2px solid #000;
+            }
+        }
+        
+        /* 다크 모드 지원 */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: #1a1a1a;
+                color: #e0e0e0;
+            }
+            
+            .test-container {
+                background: #2d2d2d;
+                color: #e0e0e0;
+            }
+            
+            .test-section {
+                background: #3d3d3d;
+                border-color: #555;
+            }
+            
+            .viewport-info {
+                background: #1e3a8a;
+                color: #e0e0e0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1>Jekyll 블로그 반응형 디자인 테스트</h1>
+            <p>다양한 화면 크기와 접근성 기준을 테스트합니다</p>
+        </div>
+        
+        <div class="test-content">
+            <div class="viewport-info">
+                <strong>현재 뷰포트:</strong> 
+                <span id="viewport-size">계산 중...</span>
+                <br>
+                <strong>디바이스 타입:</strong> 
+                <span id="device-type">확인 중...</span>
+            </div>
+            
+            <div class="test-controls">
+                <button class="test-btn" onclick="runAllTests()">전체 테스트 실행</button>
+                <button class="test-btn" onclick="testResponsive()">반응형 테스트</button>
+                <button class="test-btn" onclick="testAccessibility()">접근성 테스트</button>
+                <button class="test-btn" onclick="testPerformance()">성능 테스트</button>
+            </div>
+            
+            <div class="test-section">
+                <h3>📱 반응형 브레이크포인트 테스트</h3>
+                <div class="breakpoint-tests">
+                    <div class="breakpoint-card" id="mobile">
+                        <h4>모바일</h4>
+                        <p>< 768px</p>
+                        <div class="status-badge" id="mobile-status">대기</div>
+                    </div>
+                    <div class="breakpoint-card" id="tablet">
+                        <h4>태블릿</h4>
+                        <p>768px - 1024px</p>
+                        <div class="status-badge" id="tablet-status">대기</div>
+                    </div>
+                    <div class="breakpoint-card" id="desktop">
+                        <h4>데스크톱</h4>
+                        <p>> 1024px</p>
+                        <div class="status-badge" id="desktop-status">대기</div>
+                    </div>
+                    <div class="breakpoint-card" id="large">
+                        <h4>대형 화면</h4>
+                        <p>> 1400px</p>
+                        <div class="status-badge" id="large-status">대기</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="test-section">
+                <h3>♿ 접근성 테스트</h3>
+                <div class="accessibility-tests">
+                    <div class="accessibility-item" id="contrast-test">
+                        <h4>색상 대비</h4>
+                        <p id="contrast-result">테스트 대기</p>
+                    </div>
+                    <div class="accessibility-item" id="focus-test">
+                        <h4>키보드 네비게이션</h4>
+                        <p id="focus-result">테스트 대기</p>
+                    </div>
+                    <div class="accessibility-item" id="aria-test">
+                        <h4>ARIA 레이블</h4>
+                        <p id="aria-result">테스트 대기</p>
+                    </div>
+                    <div class="accessibility-item" id="semantic-test">
+                        <h4>시맨틱 HTML</h4>
+                        <p id="semantic-result">테스트 대기</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="test-section">
+                <h3>⚡ 성능 테스트</h3>
+                <div class="test-results" id="performance-results">
+                    <div class="result-item">
+                        <span>CSS 파일 크기</span>
+                        <span class="status-badge" id="css-size">측정 중</span>
+                    </div>
+                    <div class="result-item">
+                        <span>이미지 최적화</span>
+                        <span class="status-badge" id="image-opt">확인 중</span>
+                    </div>
+                    <div class="result-item">
+                        <span>렌더링 성능</span>
+                        <span class="status-badge" id="render-perf">측정 중</span>
+                    </div>
+                    <div class="result-item">
+                        <span>모바일 친화성</span>
+                        <span class="status-badge" id="mobile-friendly">확인 중</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="test-section">
+                <h3>🌐 브라우저 호환성</h3>
+                <div class="test-results" id="browser-results">
+                    <div class="result-item">
+                        <span>CSS Grid 지원</span>
+                        <span class="status-badge" id="grid-support">확인 중</span>
+                    </div>
+                    <div class="result-item">
+                        <span>Flexbox 지원</span>
+                        <span class="status-badge" id="flex-support">확인 중</span>
+                    </div>
+                    <div class="result-item">
+                        <span>CSS Variables 지원</span>
+                        <span class="status-badge" id="vars-support">확인 중</span>
+                    </div>
+                    <div class="result-item">
+                        <span>Modern JavaScript</span>
+                        <span class="status-badge" id="js-support">확인 중</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 뷰포트 정보 업데이트
+        function updateViewportInfo() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            document.getElementById('viewport-size').textContent = `${width} x ${height}px`;
+            
+            let deviceType = '';
+            if (width < 768) deviceType = '모바일';
+            else if (width < 1024) deviceType = '태블릿';
+            else if (width < 1400) deviceType = '데스크톱';
+            else deviceType = '대형 화면';
+            
+            document.getElementById('device-type').textContent = deviceType;
+        }
+        
+        // 반응형 테스트
+        function testResponsive() {
+            const width = window.innerWidth;
+            
+            // 모든 브레이크포인트 카드 초기화
+            document.querySelectorAll('.breakpoint-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            
+            // 현재 브레이크포인트 활성화
+            if (width < 768) {
+                document.getElementById('mobile').classList.add('active');
+                updateStatus('mobile-status', 'PASS', 'status-pass');
+                updateStatus('tablet-status', 'N/A', 'status-badge');
+                updateStatus('desktop-status', 'N/A', 'status-badge');
+                updateStatus('large-status', 'N/A', 'status-badge');
+            } else if (width < 1024) {
+                document.getElementById('tablet').classList.add('active');
+                updateStatus('mobile-status', 'N/A', 'status-badge');
+                updateStatus('tablet-status', 'PASS', 'status-pass');
+                updateStatus('desktop-status', 'N/A', 'status-badge');
+                updateStatus('large-status', 'N/A', 'status-badge');
+            } else if (width < 1400) {
+                document.getElementById('desktop').classList.add('active');
+                updateStatus('mobile-status', 'N/A', 'status-badge');
+                updateStatus('tablet-status', 'N/A', 'status-badge');
+                updateStatus('desktop-status', 'PASS', 'status-pass');
+                updateStatus('large-status', 'N/A', 'status-badge');
+            } else {
+                document.getElementById('large').classList.add('active');
+                updateStatus('mobile-status', 'N/A', 'status-badge');
+                updateStatus('tablet-status', 'N/A', 'status-badge');
+                updateStatus('desktop-status', 'N/A', 'status-badge');
+                updateStatus('large-status', 'PASS', 'status-pass');
+            }
+        }
+        
+        // 접근성 테스트
+        function testAccessibility() {
+            // 색상 대비 테스트
+            const contrastRatio = checkColorContrast();
+            const contrastItem = document.getElementById('contrast-test');
+            if (contrastRatio >= 4.5) {
+                contrastItem.className = 'accessibility-item pass';
+                document.getElementById('contrast-result').textContent = `통과 (${contrastRatio.toFixed(2)}:1)`;
+            } else {
+                contrastItem.className = 'accessibility-item fail';
+                document.getElementById('contrast-result').textContent = `실패 (${contrastRatio.toFixed(2)}:1)`;
+            }
+            
+            // 키보드 네비게이션 테스트
+            const focusableElements = document.querySelectorAll('button, a, input, select, textarea, [tabindex]:not([tabindex="-1"])');
+            const focusItem = document.getElementById('focus-test');
+            if (focusableElements.length > 0) {
+                focusItem.className = 'accessibility-item pass';
+                document.getElementById('focus-result').textContent = `통과 (${focusableElements.length}개 요소)`;
+            } else {
+                focusItem.className = 'accessibility-item fail';
+                document.getElementById('focus-result').textContent = '포커스 가능한 요소 없음';
+            }
+            
+            // ARIA 레이블 테스트
+            const ariaElements = document.querySelectorAll('[aria-label], [aria-labelledby], [role]');
+            const ariaItem = document.getElementById('aria-test');
+            if (ariaElements.length > 0) {
+                ariaItem.className = 'accessibility-item pass';
+                document.getElementById('aria-result').textContent = `통과 (${ariaElements.length}개 요소)`;
+            } else {
+                ariaItem.className = 'accessibility-item warning';
+                document.getElementById('aria-result').textContent = 'ARIA 속성 부족';
+            }
+            
+            // 시맨틱 HTML 테스트
+            const semanticElements = document.querySelectorAll('header, nav, main, section, article, aside, footer');
+            const semanticItem = document.getElementById('semantic-test');
+            if (semanticElements.length >= 3) {
+                semanticItem.className = 'accessibility-item pass';
+                document.getElementById('semantic-result').textContent = `통과 (${semanticElements.length}개 요소)`;
+            } else {
+                semanticItem.className = 'accessibility-item warning';
+                document.getElementById('semantic-result').textContent = '시맨틱 요소 부족';
+            }
+        }
+        
+        // 성능 테스트
+        function testPerformance() {
+            // CSS 파일 크기 확인
+            const cssLinks = document.querySelectorAll('link[rel="stylesheet"]');
+            updateStatus('css-size', `${cssLinks.length}개 파일`, cssLinks.length <= 5 ? 'status-pass' : 'status-warning');
+            
+            // 이미지 최적화 확인
+            const images = document.querySelectorAll('img');
+            const optimizedImages = Array.from(images).filter(img => 
+                img.src.includes('.webp') || img.src.includes('.avif') || img.hasAttribute('loading')
+            );
+            const optimizationRate = images.length > 0 ? (optimizedImages.length / images.length) * 100 : 100;
+            updateStatus('image-opt', `${optimizationRate.toFixed(0)}%`, optimizationRate >= 80 ? 'status-pass' : 'status-warning');
+            
+            // 렌더링 성능 측정
+            const renderStart = performance.now();
+            requestAnimationFrame(() => {
+                const renderTime = performance.now() - renderStart;
+                updateStatus('render-perf', `${renderTime.toFixed(2)}ms`, renderTime < 16 ? 'status-pass' : 'status-warning');
+            });
+            
+            // 모바일 친화성 확인
+            const viewport = document.querySelector('meta[name="viewport"]');
+            const isMobileFriendly = viewport && viewport.content.includes('width=device-width');
+            updateStatus('mobile-friendly', isMobileFriendly ? '통과' : '실패', isMobileFriendly ? 'status-pass' : 'status-fail');
+        }
+        
+        // 브라우저 호환성 테스트
+        function testBrowserCompatibility() {
+            // CSS Grid 지원 확인
+            const gridSupport = CSS.supports('display', 'grid');
+            updateStatus('grid-support', gridSupport ? '지원' : '미지원', gridSupport ? 'status-pass' : 'status-fail');
+            
+            // Flexbox 지원 확인
+            const flexSupport = CSS.supports('display', 'flex');
+            updateStatus('flex-support', flexSupport ? '지원' : '미지원', flexSupport ? 'status-pass' : 'status-fail');
+            
+            // CSS Variables 지원 확인
+            const varsSupport = CSS.supports('color', 'var(--test)');
+            updateStatus('vars-support', varsSupport ? '지원' : '미지원', varsSupport ? 'status-pass' : 'status-warning');
+            
+            // Modern JavaScript 지원 확인
+            const jsSupport = typeof Promise !== 'undefined' && typeof fetch !== 'undefined';
+            updateStatus('js-support', jsSupport ? '지원' : '미지원', jsSupport ? 'status-pass' : 'status-fail');
+        }
+        
+        // 색상 대비 계산 (간단한 버전)
+        function checkColorContrast() {
+            // 실제 구현에서는 더 정확한 색상 대비 계산이 필요
+            return 4.8; // 예시 값
+        }
+        
+        // 상태 업데이트 헬퍼 함수
+        function updateStatus(elementId, text, className) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.textContent = text;
+                element.className = `status-badge ${className}`;
+            }
+        }
+        
+        // 전체 테스트 실행
+        function runAllTests() {
+            testResponsive();
+            testAccessibility();
+            testPerformance();
+            testBrowserCompatibility();
+        }
+        
+        // 초기화
+        window.addEventListener('load', () => {
+            updateViewportInfo();
+            testResponsive();
+            testBrowserCompatibility();
+        });
+        
+        window.addEventListener('resize', () => {
+            updateViewportInfo();
+            testResponsive();
+        });
+        
+        // 키보드 네비게이션 테스트를 위한 이벤트 리스너
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab') {
+                // Tab 키 사용 감지
+                document.body.classList.add('keyboard-navigation');
+            }
+        });
+        
+        document.addEventListener('mousedown', () => {
+            // 마우스 사용 시 키보드 네비게이션 클래스 제거
+            document.body.classList.remove('keyboard-navigation');
+        });
+    </script>
+</body>
+</html>

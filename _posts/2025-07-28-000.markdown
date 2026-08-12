@@ -1,0 +1,139 @@
+---
+layout: post
+title:  "Qwen3, Kimi-K2 등등 무료 API Key 발급"
+date:   2025-07-28 08:00:00 +0900
+categories: Tip
+---
+
+# Qwen3, Kimi-K2 등등 무료 API Key 발급 받는 방법
+
+출처 : https://medium.com/data-science-in-your-pocket/kimi-k2-free-api-key-fb4a28900d4b
+
+
+![](https://miro.medium.com/v2/resize:fit:640/format:webp/1*kmdPBm_FAzulvRDdztsP6Q.png)
+
+We had a mini Deep Seek moment a few days back where Moonshot AI has released Kimi K2, the first 1 trillion parameter open source model. Alongside it’s not just this huge, it is also the best open source model now, beating out Claude 4 Sonnet, GPT 4.1, and DeepSeek V3.  
+며칠 전 Moonshot AI가 최초의 1조 매개변수 오픈 소스 모델인 Kimi K2를 출시한 미니 Deep Seek 순간이 있었습니다. 이렇게 거대할 뿐만 아니라 Claude 4 Sonnet, GPT 4.1 및 DeepSeek V3를 능가하는 현재 최고의 오픈 소스 모델이기도 합니다.
+
+> Unfortunately, even though the model is completely open source, most of the folks won’t be able to use it because of its high GPU requirements. Running a 1-trillion parameter model is no joke.  
+> 불행히도 모델이 완전히 오픈 소스임에도 불구하고 GPU 요구 사항이 높기 때문에 대부분의 사람들이 사용할 수 없습니다. 1조 개의 매개변수 모델을 실행하는 것은 농담이 아닙니다.
+
+But you can still run the model in your programs using the free API key that I’m going to tell you in this particular blog post, and this is not a clickbait.  
+그러나 이 특정 블로그 게시물에서 알려드릴 무료 API 키를 사용하여 프로그램에서 모델을 계속 실행할 수 있으며 이것은 클릭베이트가 아닙니다.
+
+> My new book on MCP Servers is live  
+> MCP 서버에 대한 새 책이 출시되었습니다.## [Model Context Protocol: Advanced AI Agents for Beginners (Generative AI books)모델 컨텍스트 프로토콜: 초보자를 위한 고급 AI 에이전트(생성형 AI 서적)](https://www.amazon.com/gp/product/B0FCCF348X?source=post_page-----fb4a28900d4b---------------------------------------)
+
+Amazon.com: Model Context Protocol: Advanced AI Agents for Beginners (Generative AI books) eBook: Gupta, Mehul, Sen…Amazon.com: 모델 컨텍스트 프로토콜: 초보자를 위한 고급 AI 에이전트(생성 AI 책) 전자책: 굽타, 메훌, 센...
+
+www.amazon.com
+
+[View original](https://www.amazon.com/gp/product/B0FCCF348X?source=post_page-----fb4a28900d4b---------------------------------------)
+
+> So before we jump on to let me tell you  
+> 그래서 우리가 당신에게 말하기 전에
+
+## What is OpenRouter? OpenRouter란 무엇입니까?
+
+O **penRouter** is basically a central hub that lets you access a bunch of different language models, *through one unified API*. Think of it like a router for AI models. Instead of going to OpenAI for GPT, Anthropic for Claude, Mistral for Mixtral, Moonshot for Kimi-K2, etc., you just hit OpenRouter and choose which model you want to use.  
+영형 **펜라우터** 기본적으로 *하나의 통합 API를 통해* 다양한 언어 모델에 액세스할 수 있는 중앙 허브입니다. AI 모델을 위한 라우터라고 생각하세요. GPT의 경우 OpenAI, Claude의 경우 Anthropic, Mixtral의 경우 Mistral, Kimi-K2의 경우 Moonshot 등으로 이동하는 대신 OpenRouter를 누르고 사용할 모델을 선택하기만 하면 됩니다.
+
+Here’s what it *actually* does:  
+*실제로* 수행하는 작업은 다음과 같습니다.
+
+- It lets you test and use **LLMs from different companies** through a single endpoint.  
+	단일 엔드포인트를 통해 **여러 회사의 LLM을** 테스트하고 사용할 수 있습니다.
+- It handles all the **routing** behind the scenes — whether you want GPT-4, Claude, Mistral, or Kimi-K2.  
+	GPT-4, Claude, Mistral 또는 Kimi-K2를 원하는지 여부에 관계없이 모든 **라우팅** 을 배후에서 처리합니다.
+- You get **API keys** that work across multiple models. That means fewer tokens to manage, less setup.  
+	여러 모델에서 작동하는 **API 키를** 얻을 수 있습니다. 이는 관리해야 할 토큰 수가 적고 설정이 적다는 것을 의미합니다.
+
+> And here’s the **real kicker**: some of the models, like **Kimi-K2**, are made free by their providers **via OpenRouter** — not available for free anywhere else. They also often list **token prices up-front**, so no billing surprises.  
+> 그리고 **진짜 키커** 는 **Kimi-K2** 와 같은 일부 모델은 **OpenRouter를 통해** 공급자가 무료로 제공하며 다른 곳에서는 무료로 사용할 수 없다는 것입니다. 또한 **토큰 가격을 미리** 나열하는 경우가 많으므로 청구 놀라움이 없습니다.
+
+## How to get Kimi-K2 Free API?Kimi-K2 무료 API를 얻는 방법은 무엇입니까?
+
+- Go to OpenRouter OpenRouter로 이동## [OpenRouter 오픈라우터](https://openrouter.ai/?source=post_page-----fb4a28900d4b---------------------------------------)
+
+The unified interface for LLMs. Find the best models & prices for your promptsLLM을 위한 통합 인터페이스. 프롬프트에 가장 적합한 모델 및 가격 찾기
+
+openrouter.ai
+
+[View original](https://openrouter.ai/?source=post_page-----fb4a28900d4b---------------------------------------)
+
+- Search for kimi-k2 kimi-k2 검색
+![](https://miro.medium.com/v2/resize:fit:640/format:webp/1*qH7EE555zzBUFqB_UXKwmQ.png)
+
+- Go to API section and create API  
+	API 섹션으로 이동하여 API 생성
+![](https://miro.medium.com/v2/resize:fit:640/format:webp/1*vVPLBICq9fj3ylWqudh1Hg.png)
+
+- Copy the codes from the page. One sample code is below as well. Replace your API key  
+	페이지에서 코드를 복사합니다. 하나의 샘플 코드도 아래에 있습니다. API 키 바꾸기
+```c
+import requests
+import json
+
+response = requests.post(
+  url="https://openrouter.ai/api/v1/chat/completions",
+  headers={
+    "Authorization": "Bearer {}".format(api),
+    "Content-Type": "application/json",
+    "HTTP-Referer": "", # Optional. Site URL for rankings on openrouter.ai.
+    "X-Title": "", # Optional. Site title for rankings on openrouter.ai.
+  },
+  data=json.dumps({
+    "model": "moonshotai/kimi-k2:free",
+    "messages": [
+      {
+        "role": "user",
+        "content": "What is 23-56-9"
+      }
+    ],
+
+  })
+)
+print(response.text.replace("\n","").strip())
+```
+- Run the codes and hurray, you got the free API  
+	코드를 실행하고 만세, 무료 API를 얻었습니다.
+![](https://miro.medium.com/v2/resize:fit:640/format:webp/1*9qNRqqXzX9o9qqWwswOdlg.png)
+
+> hope you try out Kimi K2 now!  
+> 지금 Kimi K2를 사용해 보시기 바랍니다!
+
+If you just wish to chat, you can try these options as well mentioned in the below video  
+채팅만 하고 싶다면 아래 비디오에 언급된 이러한 옵션을 시도해 볼 수 있습니다
+
+[![Data Science in Your Pocket](https://miro.medium.com/v2/resize:fill:96:96/1*azLPGT6SA58kykLPlca3TQ.jpeg)](https://medium.com/data-science-in-your-pocket?source=post_page---post_publication_info--fb4a28900d4b---------------------------------------)
+
+[![Data Science in Your Pocket](https://miro.medium.com/v2/resize:fill:128:128/1*azLPGT6SA58kykLPlca3TQ.jpeg)](https://medium.com/data-science-in-your-pocket?source=post_page---post_publication_info--fb4a28900d4b---------------------------------------)
+
+[Last published 10 hours ago](https://medium.com/data-science-in-your-pocket/github-spark-transforming-ideas-into-full-stack-apps-with-ai-and-natural-language-f840fec7c0e1?source=post_page---post_publication_info--fb4a28900d4b---------------------------------------)
+
+We are on Youtube: [https://www.youtube.com/channel/UCQoNosQTIxiMTL9C-gvFdjA](https://www.youtube.com/channel/UCQoNosQTIxiMTL9C-gvFdjA)
+
+hjshin
+
+What are your thoughts?  
+
+```c
+Great breakdown on how to access Kimi-K2 via OpenRouter! If you're looking to integrate advanced AI agents into your projects, my new mini guide "From Zero to AI for Junior Developers" offers hands-on strategies to help junior developers build with…
+OpenRouter를 통해 Kimi-K2에 액세스하는 방법에 대한 훌륭한 분석! 고급 AI 에이전트를 프로젝트에 통합하려는 경우 새로운 미니 가이드 "주니어 개발자를 위한 제로에서 AI까지"는 주니어 개발자가 다음을 사용하여 구축하는 데 도움이 되는 실습 전략을 제공합니다.
+```[Andrew Walsh MD. PhD.](https://medium.com/@tsardoz?source=post_page---post_responses--fb4a28900d4b----1-----------------------------------)
+
+[
+
+5 days ago
+
+](https://medium.com/@tsardoz/free-kimi-api-is-very-limited-in-use-f9f1d7cb8def?source=post_page---post_responses--fb4a28900d4b----1-----------------------------------)
+
+```c
+Free Kimi API is very limited in use. Pretty much worthless for any serious user. And most people who know how to use APIs are serious.
+무료 Kimi API는 사용이 매우 제한적입니다. 진지한 사용자에게는 거의 가치가 없습니다. 그리고 API 사용법을 아는 대부분의 사람들은 진지합니다.
+```
+
+```c
+Open router is the " Google for LLM API keys"
+오픈 라우터는 " Google for LLM API 키"
+```

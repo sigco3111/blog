@@ -1,0 +1,121 @@
+---
+layout: post
+title:  "GPT-OSS"
+date:   2025-08-06 08:00:00 +0900
+categories: 오픈소스
+---
+
+# gpt-oss-120B와 gpt-oss-20B라는 오픈(Open-Weight) 모델을 공개
+
+플레이그라운드 : https://www.gpt-oss.com/   
+블로그 : https://openai.com/open-models/   
+
+
+# GPT-OSS 개요
+
+**GPT-OSS**는 "Open Source GPT"의 약자로, 오픈소스로 개발된 GPT 기반 언어 모델들을 통칭하는 개념입니다. OpenAI의 GPT 모델은 공개되어 있지 않지만, 비슷한 구조나 성능을 가진 모델들이 다양한 연구기관과 기업에 의해 공개되어 누구나 사용할 수 있도록 제공되고 있습니다.
+
+이 문서는 GPT-OSS에 대한 정보를 정리하고, 대표적인 프로젝트들과 특징, 사용 사례, 관련 도구들을 소개합니다.
+
+---
+
+## 🔍 GPT-OSS의 정의
+
+- **GPT-OSS**는 GPT 아키텍처 또는 유사한 Transformer 기반 아키텍처를 사용하여 개발된 **오픈소스 대형 언어 모델**(Open Source LLM)을 의미합니다.
+- Hugging Face, GitHub 등에서 누구나 다운로드하고 학습/추론에 활용할 수 있습니다.
+- 보통 **Apache 2.0**이나 **MIT License**와 같은 자유로운 라이선스를 따릅니다.
+
+---
+
+## 🧠 대표적인 GPT-OSS 프로젝트
+
+| 모델명 | 개발 주체 | 파라미터 수 | 특징 | 라이선스 |
+|--------|------------|-------------|-------|-----------|
+| **GPT-J** | EleutherAI | 6B | GPT-3 대체 모델로 널리 사용됨 | Apache 2.0 |
+| **GPT-Neo** | EleutherAI | 1.3B / 2.7B | 초기 오픈 GPT 계열 | MIT |
+| **GPT-NeoX-20B** | EleutherAI | 20B | 고성능 대형 모델 | Apache 2.0 |
+| **MPT (MosaicML)** | MosaicML | 최대 30B | 상업적 사용 허용, 빠른 추론 | Apache 2.0 |
+| **Falcon** | TII (UAE) | 7B / 40B | Hugging Face 인기 모델 | Apache 2.0 |
+| **LLaMA (Meta)** | Meta | 7B ~ 65B | 상업적 사용 불가(제한적 공개) | Custom |
+| **OpenLLaMA** | 여러 커뮤니티 | 3B ~ 13B | LLaMA의 재현 오픈모델 | Apache 2.0 |
+| **Pythia** | EleutherAI | 70M ~ 12B | 학습 데이터 전 과정 공개 | Apache 2.0 |
+| **Qwen (Alibaba)** | Alibaba | 7B+ | Multilingual, Chat/Code 지원 | Apache 2.0 |
+| **Phi-2** | Microsoft | 2.7B | 고성능 경량 모델 | MIT |
+| **Yi** | 01.AI | 6B / 34B | 중국어/영어 양방향 | MIT |
+
+---
+
+## ⚙️ GPT-OSS 사용 방법
+
+1. **Hugging Face 모델 허브 활용**
+   ```bash
+   pip install transformers
+   ```
+
+   ```python
+   from transformers import AutoTokenizer, AutoModelForCausalLM
+
+   model = AutoModelForCausalLM.from_pretrained("EleutherAI/gpt-j-6B")
+   tokenizer = AutoTokenizer.from_pretrained("EleutherAI/gpt-j-6B")
+
+   input_text = "What is open source AI?"
+   inputs = tokenizer(input_text, return_tensors="pt")
+   outputs = model.generate(**inputs, max_new_tokens=100)
+   print(tokenizer.decode(outputs[0]))
+   ```
+
+2. **llama.cpp, exllama 등 경량 실행 도구 활용**
+   - CPU/저사양 GPU에서도 추론 가능
+   - Quantized 모델 지원
+
+3. **API 서버 구축 (FastAPI, Text Generation WebUI 등)**
+
+---
+
+## 📊 GPT-OSS와 ChatGPT 비교
+
+| 항목 | GPT-OSS | ChatGPT (OpenAI) |
+|------|---------|------------------|
+| 접근성 | 누구나 무료 | 제한적 (유료/무료) |
+| 커스터마이징 | 가능 (파인튜닝, 수정 등) | 불가능 |
+| 성능 | 모델에 따라 상이 | 최신 GPT-4 탑재 |
+| 추론비용 | 저렴 (로컬 실행 가능) | 서버 비용 발생 |
+| 오프라인 사용 | 가능 | 불가 |
+| 사용 편의성 | 기술적 지식 필요 | 매우 쉬움 |
+
+---
+
+## 🛠 관련 도구 및 프레임워크
+
+- 🤗 Hugging Face Transformers
+- 🔧 Text Generation WebUI
+- 🧩 llama.cpp / exllama / koboldcpp
+- 🖥️ vLLM (초고속 추론 엔진)
+- 🧠 LoRA / QLoRA (파인튜닝)
+- 📦 GGUF / GPTQ (모델 압축 포맷)
+
+---
+
+## 📌 장단점 정리
+
+### ✅ 장점
+- **무료 & 오픈소스**
+- **자유로운 커스터마이징**
+- **로컬에서 사용 가능**
+- **다양한 언어 및 목적 특화 모델 존재**
+
+### ❌ 단점
+- 세팅/운영이 복잡할 수 있음
+- 상업적 지원 부족 (일부 모델 제외)
+- 최신 상업 모델보다 성능이 낮을 수 있음
+
+---
+
+## 📚 참고 자료
+
+- [Hugging Face 모델 허브](https://huggingface.co/models)
+- [EleutherAI GitHub](https://github.com/EleutherAI)
+- [MosaicML Blog](https://www.mosaicml.com/blog)
+- [OpenLLM Leaderboard](https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard)
+
+---

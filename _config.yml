@@ -1,0 +1,142 @@
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your whole blog, values
+# which you are expected to set up once and rarely edit after that. If you find
+# yourself editing this file very often, consider using Jekyll's data files
+# feature for the data you need to update frequently.
+#
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
+#
+# If you need help with YAML syntax, here are some quick references for you:
+# https://learn-the-web.algonquindesign.ca/topics/markdown-yaml-cheat-sheet/#yaml
+# https://learnxinyminutes.com/docs/yaml/
+#
+# Site settings
+# These are used to personalize your new site. If you look in the HTML files,
+# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
+# You can create any custom variable you would like, and they will be accessible
+# in the templates via {{ site.myvariable }}.
+
+title: ICBM Blog
+email: sigco3111k@gmail.com
+description: >- # this means to ignore newlines until "baseurl:"
+  바이브코딩과 일상에 대한 블로그
+baseurl: "/blog" # the subpath of your site, e.g. /blog
+url: "https://sigco3111.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+twitter_username: sigco3111k
+github_username:  sigco3111
+lang: ko
+
+# Build settings
+theme: minima
+plugins:
+  - jekyll-feed
+
+# 성능 최적화 설정
+sass:
+  style: compressed
+  sourcemap: never
+  
+# 빌드 성능 최적화
+incremental: true
+profile: false
+strict_front_matter: false
+liquid:
+  error_mode: warn
+  strict_filters: false
+  strict_variables: false
+
+# 캐시 및 메모리 최적화
+keep_files:
+  - .git
+  - .svn
+future: false
+unpublished: false
+limit_posts: 0
+
+# 보안 및 제외 설정 최적화
+exclude:
+  - .env
+  - .env.*
+  - node_modules/
+  - "*.log"
+  - "*.tmp"
+  - "*.temp"
+  - Gemfile
+  - Gemfile.lock
+  - package.json
+  - package-lock.json
+  - webpack.config.js
+  - .babelrc
+  - .eslintrc*
+  - .stylelintrc*
+  - .prettierrc*
+  - .DS_Store
+  - Thumbs.db
+  - .vscode/
+  - .idea/
+  - "*.swp"
+  - "*.swo"
+  - .jekyll-cache/
+  - .sass-cache/
+  - vendor/
+  - spec/
+  - test/
+  - tests/
+  - features/
+  - benchmark/
+  - script/
+  - scripts/
+
+# 개발 환경 설정
+livereload: true
+open_url: true
+
+# 플러그인 성능 설정
+plugins:
+  - jekyll-feed
+  - jekyll-paginate
+
+# GitHub Pages 환경에서 사용자 정의 플러그인 사용 제한
+safe: true # GitHub Pages와의 호환성을 위해 안전 모드 활성화
+
+# 카테고리 페이지 명시적 포함
+include:
+  - category
+
+# 페이징 설정
+paginate: 10
+paginate_path: "/page:num/"
+paginate_categories: 10
+
+# 압축 및 최적화
+compress_html:
+  clippings: all
+  comments: ["<!-- ", " -->"]
+  endings: all
+  ignore:
+    envs: [development]
+  blanklines: false
+  profile: false
+  startings: [html, head, body]
+
+# Exclude from processing.
+# The following items will not be processed, by default.
+# Any item listed under the `exclude:` key here will be automatically added to
+# the internal "default list".
+#
+# Excluded items can be processed by explicitly listing the directories or
+# their entries' file path in the `include:` list.
+#
+# exclude:
+#   - .sass-cache/
+#   - .jekyll-cache/
+#   - gemfiles/
+#   - Gemfile
+#   - Gemfile.lock
+#   - node_modules/
+#   - vendor/bundle/
+#   - vendor/cache/
+#   - vendor/gems/
+#   - vendor/ruby/
